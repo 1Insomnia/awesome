@@ -31,10 +31,9 @@ awful.rules.rules = create_rules(keys.clientkeys, keys.clientbuttons)
 require("components.notifications")
 
 -- Import components
-require("components.wallpaper")
 require("components.exit-screen")
 require("components.volume-adjust")
-
+require("components.wallpaper")
 -- Autostart specified apps
 local apps = require("apps")
 apps.autostart()
@@ -110,6 +109,9 @@ client.connect_signal("mouse::enter", function(c)
    c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
+-- ░█░█░█▀█░█░░░█░░░█▀█░█▀█░█▀█░█▀▀░█▀▄
+-- ░█▄█░█▀█░█░░░█░░░█▀▀░█▀█░█▀▀░█▀▀░█▀▄
+-- ░▀░▀░▀░▀░▀▀▀░▀▀▀░▀░░░▀░▀░▀░░░▀▀▀░▀░▀
 
 -- ===================================================================
 -- Garbage collection (allows for lower memory consumption)
