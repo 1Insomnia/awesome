@@ -14,7 +14,7 @@ local wibox = require('wibox')
 local gears = require('gears')
 local naughty = require('naughty') 
 local dpi = require('beautiful').xresources.apply_dpi
-local apps = require('apps')
+local apps = require('config.apps')
 local clickable_container = require('widgets.clickable-container')
 
 local config_dir = gears.filesystem.get_configuration_dir()
