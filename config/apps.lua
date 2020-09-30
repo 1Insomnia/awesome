@@ -25,7 +25,8 @@ local apps = {}
 -- define default apps
 apps.default = {
    terminal = "kitty",
-   launcher = "rofi -matching fuzzy drun -show combi",
+   launcher = "rofi -matching fuzzy -show combi",
+   editorGui = "subl",
    lock = "i3lock",
    music = "kitty -o font_size=12 --class music -e ncmpcpp",
    screenshot = "scrot -e 'mv $f ~/Pictures/ 2>/dev/null'",
@@ -35,7 +36,7 @@ apps.default = {
 -- List of apps to start once on start-up
 local run_on_start_up = {
   "blueman-applet",
-  "xrandr --output HDMI1 --auto --right-of eDP1" 
+  "xrandr --output HDMI1 --auto --right-of eDP1"
 }
 
 

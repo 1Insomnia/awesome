@@ -17,6 +17,8 @@ local gears = require("gears")
 local dpi = beautiful.xresources.apply_dpi
 local xresources = require("beautiful.xresources")
 local helpers = require("helpers")
+local apps = require("config.apps").default
+
 -- Local scripts
 local volume = require("components.volume")
 
@@ -90,6 +92,25 @@ local exit = create_button("", beautiful.red, beautiful.bg_normal .."C0", bea
 exit:buttons(gears.table.join(
     awful.button({ }, 1, function ()
         awesome.emit_signal("show_exit_screen")
+    end)
+))
+
+-- Music
+local music = create_button("", beautiful.green, beautiful.bg_normal.."90", beautiful.white.."B0")
+
+music:buttons(gears.table.join(
+    awful.button({ }, 1, function ()
+         awful.spawn(apps.music)
+    end),
+    awful.button({ }, 3, function ()
+         awful.spawn(apps.music)
+    end),
+    -- Scrolling: Adjust mpd volume
+    awful.button({ }, 4, function ()
+        awful.spawn.with_shell("mpc volume +5")
+    end),
+    awful.button({ }, 5, function ()
+        awful.spawn.with_shell("mpc volume -5")
     end)
 ))
 
@@ -170,10 +191,11 @@ top_panel.create = function(s)
          ram_bar,
          battery_bar,
          volume_bar,
+         music,
+         exit,
          bluetooth,
          network,
          battery,
-         exit,
          layout_box,
       }
    }

@@ -83,7 +83,7 @@ function rules.create(clientkeys, clientbuttons)
          rule_any = {
             class = {
                "Firefox",
-               "Subl3",
+               "subl",
                "code-insiders"
             },
          }, properties = {switchtotag = true}

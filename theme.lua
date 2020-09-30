@@ -33,6 +33,7 @@ theme.bg_urgent = "#ed8274"
 theme.bg_minimize = "#444444"
 theme.bg_systray = theme.bg_normal
 theme.bg_bar = "#20262C"
+theme.hover = "#00000000"
 
 -- Foreground
 theme.fg_normal = "#ffffff"
