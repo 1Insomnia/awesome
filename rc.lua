@@ -38,6 +38,8 @@ require("components.wallpaper")
 local apps = require("config.apps")
 apps.autostart()
 
+local helpers = require("helpers")
+local volume = require("components.volume")
 
 -- ===================================================================
 -- Set Up Screen & Connect Signals

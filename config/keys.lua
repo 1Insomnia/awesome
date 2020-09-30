@@ -19,6 +19,7 @@ local dpi = beautiful.xresources.apply_dpi
 
 -- Default Applications
 local apps = require("config.apps").default
+local volume = require("components.volume")
 
 -- Define mod keys
 local modkey = "Mod4"
@@ -170,29 +171,15 @@ keys.globalkeys = gears.table.join(
       end,
       {description = "-10%", group = "hotkeys"}
    ),
+   -- Volume keys
+   awful.key({}, "XF86AudioMute", volume.volume_mute,
+             {description = "volume mute", group = "audio"}),
+   awful.key({}, "XF86AudioRaiseVolume", volume.volume_up,
+             {description = "volume up", group = "audio"}),
+   awful.key({}, "#XF86AudioLowerVolume", volume.volume_down,
+             {description = "volume down", group = "audio"}),
 
-   -- ALSA volume control
-   awful.key({}, "XF86AudioRaiseVolume",
-      function()
-         awful.spawn("amixer -D pulse sset Master 5%+", false)
-         awesome.emit_signal("volume_change")
-      end,
-      {description = "volume up", group = "hotkeys"}
-   ),
-   awful.key({}, "XF86AudioLowerVolume",
-      function()
-         awful.spawn("amixer -D pulse sset Master 5%-", false)
-         awesome.emit_signal("volume_change")
-      end,
-      {description = "volume down", group = "hotkeys"}
-   ),
-   awful.key({}, "XF86AudioMute",
-      function()
-         awful.spawn("amixer -D pulse set Master 1+ toggle", false)
-         awesome.emit_signal("volume_change")
-      end,
-      {description = "toggle mute", group = "hotkeys"}
-   ),
+   -- Mpd
    awful.key({}, "XF86AudioNext",
       function()
          awful.spawn("mpc next", false)
