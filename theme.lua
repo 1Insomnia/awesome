@@ -21,7 +21,6 @@ local theme = {}
 -- Theme Variables
 -- ===================================================================
 
-
 -- Font
 theme.font = "SF Pro Text 9"
 theme.title_font = "SF Pro Display Medium 10"
@@ -33,12 +32,35 @@ theme.bg_focus = "#151821"
 theme.bg_urgent = "#ed8274"
 theme.bg_minimize = "#444444"
 theme.bg_systray = theme.bg_normal
+theme.bg_bar = "#20262C"
 
 -- Foreground
 theme.fg_normal = "#ffffff"
 theme.fg_focus = "#e4e4e4"
 theme.fg_urgent = "#ffffff"
 theme.fg_minimize = "#ffffff"
+
+-- 16 Colors
+-- Normal
+theme.black   = "#3D4C5F"
+theme.red     = "#EE4F84" 
+theme.green   = "#53E2AE" 
+theme.yellow  = "#F1FF52" 
+theme.blue    = "#6498EF" 
+theme.magenta = "#985EFF"
+theme.cyan    = "#24D1E7"
+theme.white   = "#E5E5E5" 
+
+-- Bright
+theme.brightBlack   = "#56687E"
+theme.brightRed     = "#F48FB1"
+theme.brightGreen   = "#A1EFD3"
+theme.brightYellow  = "#F1FA8C"
+theme.brightBlue    = "#92B6F4"
+theme.brightMagenta = "#BD99FF"
+theme.brightCyan    = "#87DFEB"
+theme.brightWhite   = "#F8F8F2"
+
 
 -- Window Gap Distance
 theme.useless_gap = dpi(7)
