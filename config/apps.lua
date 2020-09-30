@@ -17,7 +17,6 @@ local filesystem = require("gears.filesystem")
 -- define module table
 local apps = {}
 
-
 -- ===================================================================
 -- App Declarations
 -- ===================================================================
@@ -26,14 +25,16 @@ local apps = {}
 -- define default apps
 apps.default = {
    terminal = "kitty",
-   launcher = "rofi -matching fuzzy -show combi",
+   launcher = "rofi -matching fuzzy drun -show combi",
    lock = "i3lock",
+   music = "kitty -o font_size=12 --class music -e ncmpcpp",
    screenshot = "scrot -e 'mv $f ~/Pictures/ 2>/dev/null'",
    filebrowser = "thunar"
 }
 
 -- List of apps to start once on start-up
 local run_on_start_up = {
+  "blueman-applet",
   "xrandr --output HDMI1 --auto --right-of eDP1" 
 }
 
@@ -41,7 +42,6 @@ local run_on_start_up = {
 -- ===================================================================
 -- Functionality
 -- ===================================================================
-
 
 -- Run all the apps listed in run_on_start_up
 function apps.autostart()

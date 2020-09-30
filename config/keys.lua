@@ -153,11 +153,16 @@ keys.globalkeys = gears.table.join(
       end,
       {description = "application launcher", group = "launcher"}
    ),
-
+   -- Spawn music client
+   awful.key({modkey}, "F3",
+      function()
+         awful.spawn(apps.music)
+      end,
+      {description = "application launcher", group = "launcher"}
+   ),
    -- =========================================
    -- FUNCTION KEYS
    -- =========================================
-
    -- Brightness
    awful.key({}, "XF86MonBrightnessUp",
       function()
@@ -458,7 +463,7 @@ keys.clientkeys = gears.table.join(
    ),
 
    -- Maximize
-   awful.key({modkey}, "m",
+   awful.key({modkey, "Shift"}, "f",
       function(c)
          c.maximized = not c.maximized
          c:raise()

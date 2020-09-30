@@ -22,8 +22,8 @@ local theme = {}
 -- ===================================================================
 
 -- Font
-theme.font = "SF Pro Text 9"
-theme.title_font = "SF Pro Display Medium 10"
+theme.font = "Rec Mono Casual 9"
+theme.title_font = "Rec Mono Casual 10"
 
 -- Background
 theme.bg_normal = "#1f2430"
@@ -63,15 +63,15 @@ theme.brightWhite   = "#F8F8F2"
 
 
 -- Window Gap Distance
-theme.useless_gap = dpi(7)
+theme.useless_gap = dpi(10)
 
 -- Show Gaps if Only One Client is Visible
 theme.gap_single_client = true
 
 -- Window Borders
-theme.border_width = dpi(0)
+theme.border_width = dpi(2)
 theme.border_normal = theme.bg_normal
-theme.border_focus = "#ff8a65"
+theme.border_focus = theme.white 
 theme.border_marked = theme.fg_urgent
 
 -- Taglist
