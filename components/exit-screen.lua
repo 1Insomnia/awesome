@@ -90,7 +90,7 @@ local function reboot_command()
    awful.keygrabber.stop(exit_screen_grabber)
 end
 
-local poweroff = build_button(ICON_DIR .. "power.svg", "Shutdown")
+local poweroff = build_button(ICON_DIR .. "power.png", "Shutdown")
 poweroff:connect_signal(
    "button::release",
    function()
@@ -98,7 +98,7 @@ poweroff:connect_signal(
    end
 )
 
-local reboot = build_button(ICON_DIR .. "restart.svg", "Restart")
+local reboot = build_button(ICON_DIR .. "restart.png", "Restart")
 reboot:connect_signal(
    "button::release",
    function()
@@ -106,7 +106,7 @@ reboot:connect_signal(
    end
 )
 
-local suspend = build_button(ICON_DIR .. "sleep.svg", "Sleep")
+local suspend = build_button(ICON_DIR .. "sleep.png", "Sleep")
 suspend:connect_signal(
    "button::release",
    function()
@@ -114,7 +114,7 @@ suspend:connect_signal(
    end
 )
 
-local exit = build_button(ICON_DIR .. "logout.svg", "Logout")
+local exit = build_button(ICON_DIR .. "logout.png", "Logout")
 exit:connect_signal(
    "button::release",
    function()
@@ -122,7 +122,7 @@ exit:connect_signal(
    end
 )
 
-local lock = build_button(ICON_DIR .. "lock.svg", "Lock")
+local lock = build_button(ICON_DIR .. "lock.png", "Lock")
 lock:connect_signal(
    "button::release",
    function()
