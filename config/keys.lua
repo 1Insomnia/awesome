@@ -471,6 +471,71 @@ keys.clientkeys = gears.table.join(
       {description = "(un)maximize", group = "client"}
    )
 )
+-- Mouse buttons on the tasklist
+-- Use 'Any' modifier so that the same buttons can be used in the floating
+-- tasklist displayed by the window switcher while the modkey is pressed
+keys.tasklist_buttons = gears.table.join(
+    awful.button({ 'Any' }, 1,
+        function (c)
+            if c == client.focus then
+                c.minimized = true
+            else
+                -- Without this, the following
+                -- :isvisible() makes no sense
+                c.minimized = false
+                if not c:isvisible() and c.first_tag then
+                    c.first_tag:view_only()
+                end
+                -- This will also un-minimize
+                -- the client, if needed
+                client.focus = c
+            end
+    end),
+    -- Middle mouse button closes the window (on release)
+    awful.button({ 'Any' }, 2, nil, function (c) c:kill() end),
+    awful.button({ 'Any' }, 3, function (c) c.minimized = true end),
+    awful.button({ 'Any' }, 4, function ()
+        awful.client.focus.byidx(-1)
+    end),
+    awful.button({ 'Any' }, 5, function ()
+        awful.client.focus.byidx(1)
+    end),
+
+    -- Side button up - toggle floating
+    awful.button({ 'Any' }, 9, function(c)
+        c.floating = not c.floating
+    end),
+    -- Side button down - toggle ontop
+    awful.button({ 'Any' }, 8, function(c)
+        c.ontop = not c.ontop
+    end)
+)
+
+-- Mouse buttons on a tag of the taglist widget
+keys.taglist_buttons = gears.table.join(
+    awful.button({ }, 1, function(t)
+        -- t:view_only()
+        helpers.tag_back_and_forth(t.index)
+    end),
+    awful.button({ modkey }, 1, function(t)
+        if client.focus then
+            client.focus:move_to_tag(t)
+        end
+    end),
+    -- awful.button({ }, 3, awful.tag.viewtoggle),
+    awful.button({ }, 3, function(t)
+        if client.focus then
+            client.focus:move_to_tag(t)
+        end
+    end),
+    awful.button({ modkey }, 3, function(t)
+        if client.focus then
+            client.focus:toggle_tag(t)
+        end
+    end),
+    awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
+    awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end)
+)
 
 -- Bind all key numbers to tags
 for i = 1, 9 do

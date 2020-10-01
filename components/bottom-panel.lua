@@ -9,7 +9,6 @@
 -- Initialization
 -- ===================================================================
 
-
 local awful = require("awful")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
@@ -18,18 +17,112 @@ local dpi = beautiful.xresources.apply_dpi
 local xresources = require("beautiful.xresources")
 local helpers = require("helpers")
 local apps = require("config.apps").default
+local keys = require("config.keys")
 
 -- Local scripts
 local volume = require("components.volume")
 
 -- import widgets
 local task_list = require("widgets.task-list")
-local tag_list = require("widgets.tag-list")
+-- local tag_list = require("widgets.tag-list")
 local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local battery = require("widgets.battery")
 local bluetooth = require("widgets.bluetooth")
 local layout_box = require("widgets.layout-box")
+
+local tag_colors_empty = { "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", }
+
+local tag_colors_urgent = {
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red
+    
+}
+
+local tag_colors_focused = {
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+    beautiful.red,
+}
+
+local tag_colors_occupied = {
+    beautiful.red.."55",
+    beautiful.red.."55",
+    beautiful.red.."55",
+    beautiful.red.."55",
+    beautiful.red.."55",
+    beautiful.red.."55",
+    beautiful.red.."55",
+    beautiful.red.."55",
+    beautiful.red.."55",
+    beautiful.red.."55",
+}
+
+-- Helper function that updates a taglist item
+local update_taglist = function (item, tag, index)
+    if tag.selected then
+        item.bg = tag_colors_focused[index]
+    elseif tag.urgent then
+        item.bg = tag_colors_urgent[index]
+    elseif #tag:clients() > 0 then
+        item.bg = tag_colors_occupied[index]
+    else
+        item.bg = tag_colors_empty[index]
+    end
+end
+
+awful.screen.connect_for_each_screen(function(s)
+    -- Create a taglist for every screen
+    s.mytaglist = awful.widget.taglist {
+        screen  = s,
+        filter  = awful.widget.taglist.filter.all,
+        buttons = keys.taglist_buttons,
+        layout = wibox.layout.flex.horizontal,
+        widget_template = {
+            widget = wibox.container.background,
+            create_callback = function(self, tag, index, _)
+                update_taglist(self, tag, index)
+            end,
+            update_callback = function(self, tag, index, _)
+                update_taglist(self, tag, index)
+            end,
+        }
+    }
+
+    -- Create the top bar
+    s.mytopwibox = awful.wibar({screen = s, visible = true, ontop = false, type = "dock", position = "top", height = dpi(5)})
+    -- Bar placement
+    awful.placement.maximize_horizontally(s.mytopwibox)
+    s.mytopwibox.bg = "#00000000"
+
+    s.mytopwibox:setup {
+        widget = s.mytaglist,
+    }
+    -- Place bar at the bottom and add margins
+    -- awful.placement.bottom(s.mywibox, {margins = beautiful.screen_margin * 2})
+    -- Also add some screen padding so that clients do not stick to the bar
+    -- For "awful.wibar"
+    -- s.padding = { bottom = s.padding.bottom + beautiful.screen_margin * 2 }
+    -- For "wibox"
+    -- s.padding = { bottom = s.mywibox.height + beautiful.screen_margin * 2 }
+
+end)
+
 
 -- Bar color
 local ram_bar_color = beautiful.red
@@ -165,12 +258,12 @@ end, battery_bar)
 -- Bar Creation
 -- ===================================================================
 
-local top_panel = {}
+local bottom_panel = {}
 
-top_panel.create = function(s)
+bottom_panel.create = function(s)
    local panel = awful.wibar({
       screen = s,
-      position = "top",
+      position = "bottom",
       ontop = true,
       height = dpi(32),
       width = s.geometry.width,
@@ -181,7 +274,7 @@ top_panel.create = function(s)
       layout = wibox.layout.align.horizontal,
       {
          layout = wibox.layout.fixed.horizontal,
-         tag_list.create(s),
+         -- tag_list.create(s),
          task_list.create(s),
       },
       calendar,
@@ -217,4 +310,4 @@ top_panel.create = function(s)
 
 end
 
-return top_panel
+return bottom_panel

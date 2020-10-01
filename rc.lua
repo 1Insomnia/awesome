@@ -56,7 +56,7 @@ awful.layout.layouts = {
 local tags = require("config.tags")
 
 -- Import panels
-local top_panel = require("components.top-panel")
+local bottom_panel = require("components.bottom-panel")
 
 -- Set up each screen (add tags & panels)
 awful.screen.connect_for_each_screen(function(s)
@@ -70,7 +70,7 @@ awful.screen.connect_for_each_screen(function(s)
       })
    end
   -- Add the top panel to every screen
-   top_panel.create(s)
+  bottom_panel.create(s)
 end)
 
 -- remove gaps if layout is set to max
@@ -95,7 +95,6 @@ client.connect_signal("manage", function (c)
       awful.placement.no_offscreen(c)
    end
 end)
-
 
 -- ===================================================================
 -- Client Focusing
