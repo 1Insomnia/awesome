@@ -71,7 +71,7 @@ local function list_update(w, buttons, label, data, objects)
       else
          ib = wibox.widget.imagebox()
          tb = wibox.widget.textbox()
-         cb = clickable_container(wibox.container.margin(wibox.widget.imagebox(ICON_DIR .. "close.svg"), dpi(6), dpi(6), dpi(6), dpi(6)))
+         cb = clickable_container(wibox.container.margin(wibox.widget.imagebox(ICON_DIR .. "close.png"), dpi(6), dpi(6), dpi(6), dpi(6)))
          cb.shape = gears.shape.circle
          cbm = wibox.container.margin(cb, dpi(4), dpi(8), dpi(2), dpi(2)) -- 4, 8 ,12 ,12 -- close button
          cbm:buttons(gears.table.join(awful.button({}, 1, nil,

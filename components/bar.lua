@@ -24,7 +24,6 @@ local volume = require("components.volume")
 
 -- import widgets
 local task_list = require("widgets.task-list")
--- local tag_list = require("widgets.tag-list")
 local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local battery = require("widgets.battery")
@@ -43,7 +42,7 @@ local tag_colors_urgent = {
     beautiful.white,
     beautiful.white,
     beautiful.white
-    
+
 }
 
 local tag_colors_focused = {
@@ -188,7 +187,7 @@ exit:buttons(gears.table.join(
 ))
 
 -- Music
-local music = create_button("", beautiful.green, beautiful.bg_normal.."90", beautiful.white.."B0")
+local music = create_button("", beautiful.yellow, beautiful.bg_normal.."90", beautiful.white.."B0")
 
 music:buttons(gears.table.join(
     awful.button({ }, 1, function ()
@@ -273,7 +272,7 @@ bar.create = function(s)
       layout = wibox.layout.align.horizontal,
       {
          layout = wibox.layout.fixed.horizontal,
-         -- tag_list.create(s),
+         exit,
          task_list.create(s),
       },
       calendar,
@@ -284,7 +283,6 @@ bar.create = function(s)
          battery_bar,
          volume_bar,
          music,
-         exit,
          network,
          battery,
          layout_box,

@@ -68,22 +68,13 @@ function rules.create(clientkeys, clientbuttons)
       }, properties = {floating = true}
    },
 
-   -- -- Fullscreen clients
-   -- {
-   --    rule_any = {
-   --       class = {
-   --          "Terraria.bin.x86",
-   --       },
-   --    }, properties = {fullscreen = true}
-   -- },
-
    -- "Switch to tag"
    -- These clients make you switch to their tag when they appear
    {
       rule_any = {
          class = {
             "Firefox",
-            "subl",
+            "Subl",
             "code-insiders",
             "kitty -e ncmpcpp"
          },
@@ -111,14 +102,14 @@ function rules.create(clientkeys, clientbuttons)
           rule_any = {
               class = {
                   "code-insiders",
-                  "subl",
+                  "Subl",
                   "emacs"
               },
           },
           properties = { tag = "3" },
       },
 
-      -- File manager 
+      -- File manager
       {
           rule_any = {
               class = {
@@ -128,7 +119,7 @@ function rules.create(clientkeys, clientbuttons)
           },
           properties = { tag = "4" },
       },
-      -- Mail client 
+      -- Mail client
       {
           rule_any = {
               class = {
@@ -138,7 +129,7 @@ function rules.create(clientkeys, clientbuttons)
           },
           properties = { tag = "5" },
       },
-      -- Social client 
+      -- Social client
       {
           rule_any = {
               class = {
