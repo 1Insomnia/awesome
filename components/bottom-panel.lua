@@ -28,49 +28,48 @@ local task_list = require("widgets.task-list")
 local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local battery = require("widgets.battery")
-local bluetooth = require("widgets.bluetooth")
 local layout_box = require("widgets.layout-box")
 
 local tag_colors_empty = { "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", }
 
 local tag_colors_urgent = {
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red
+    beautiful.white,
+    beautiful.white,
+    beautiful.white,
+    beautiful.white,
+    beautiful.white,
+    beautiful.white,
+    beautiful.white,
+    beautiful.white,
+    beautiful.white,
+    beautiful.white
     
 }
 
 local tag_colors_focused = {
     beautiful.red,
+    beautiful.magenta,
+    beautiful.blue,
+    beautiful.cyan,
+    beautiful.green,
+    beautiful.yellow,
     beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
-    beautiful.red,
+    beautiful.magenta,
+    beautiful.blue,
+    beautiful.cyan,
 }
 
 local tag_colors_occupied = {
     beautiful.red.."55",
+    beautiful.magenta.."55",
+    beautiful.blue.."55",
+    beautiful.cyan.."55",
+    beautiful.green.."55",
+    beautiful.yellow.."55",
     beautiful.red.."55",
-    beautiful.red.."55",
-    beautiful.red.."55",
-    beautiful.red.."55",
-    beautiful.red.."55",
-    beautiful.red.."55",
-    beautiful.red.."55",
-    beautiful.red.."55",
-    beautiful.red.."55",
+    beautiful.magenta.."55",
+    beautiful.blue.."55",
+    beautiful.cyan.."55",
 }
 
 -- Helper function that updates a taglist item
@@ -286,7 +285,6 @@ bottom_panel.create = function(s)
          volume_bar,
          music,
          exit,
-         bluetooth,
          network,
          battery,
          layout_box,

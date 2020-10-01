@@ -62,8 +62,6 @@ local bottom_panel = require("components.bottom-panel")
 awful.screen.connect_for_each_screen(function(s)
    for i, tag in pairs(tags) do
       awful.tag.add(i, {
-         icon = tag.icon,
-         icon_only = true,
          layout = awful.layout.suit.tile,
          screen = s,
          selected = i == 1
