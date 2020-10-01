@@ -22,46 +22,54 @@ local awful = require("awful")
 -- define module table
 local tags = {
    {
-      icon = dir .. "terminal.png",
       type = 'terminal',
       default_app = "kitty",
       screen = 1
    },
    {
-      icon = dir .. "firefox.png",
       type = 'browser',
       default_app = 'firefox',
       screen = 1
    },
    {
-      icon = dir .. "code.png",
       type = 'code',
       default_app = 'subl',
       screen = 1
    },
    {
-      icon = dir .. "folder.png",
 	  	type = 'files',
 	  	default_app = 'thunar',
 	  	screen = 1
    },
    {
-      icon = dir .. "circle.png",
+	  	type = 'mail',
+	  	default_app = 'thunderbird',
+	  	screen = 1
    },
    {
-      icon = dir .. "floating.png",
+	  	type = 'music',
+	  	default_app = 'kitty -o ncmpcpp',
+	  	screen = 1
+   },
+   {
+	  	type = 'social',
+	  	default_app = 'discord',
+	  	screen = 1
+   },
+   {
+	  	type = 'misc',
+	  	default_app = 'emacs',
+	  	screen = 1
+   },
+   {
+	  	type = 'any',
+	  	default_app = 'thunar',
+	  	screen = 1
    },
    -- {
-   --    icon = dir .. "videogame.png",
-   -- },
-   -- {
-   --    icon = dir .. "star.png",
-   -- },
-   -- {
-   --    icon = dir .. "mail.png",
-   -- },
-   {
-      icon = dir .. "spotify.png",
-   }
+	  	-- type = 'files',
+	  	-- default_app = 'thunar',
+	  	-- screen = 1
+   -- }
 }
 return tags

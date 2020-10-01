@@ -29,66 +29,125 @@ local rules = {}
 -- return a table of client rules including provided keys / buttons
 function rules.create(clientkeys, clientbuttons)
    return {
-      -- All clients will match this rule.
-      {
-         rule = {},
-         properties = {
-            border_width = beautiful.border_width,
-            border_color = beautiful.border_normal,
-            focus = awful.client.focus.filter,
-            raise = true,
-            keys = clientkeys,
-            buttons = clientbuttons,
-            screen = awful.screen.preferred,
-            placement = awful.placement.centered
+   -- All clients will match this rule.
+   {
+      rule = {},
+      properties = {
+         border_width = beautiful.border_width,
+         border_color = beautiful.border_normal,
+         focus = awful.client.focus.filter,
+         raise = true,
+         keys = clientkeys,
+         buttons = clientbuttons,
+         screen = awful.screen.preferred,
+         placement = awful.placement.centered
 
+      },
+   },
+   -- Floating clients.
+   {
+      rule_any = {
+         instance = {
+            "DTA",
+            "copyq",
          },
-      },
-      -- Floating clients.
+         class = {
+            "Nm-connection-editor"
+         },
+         name = {
+            "Event Tester",
+            "Steam Guard - Computer Authorization Required"
+         },
+         role = {
+            "pop-up",
+            "GtkFileChooserDialog"
+         },
+         type = {
+            "dialog"
+         }
+      }, properties = {floating = true}
+   },
+
+   -- -- Fullscreen clients
+   -- {
+   --    rule_any = {
+   --       class = {
+   --          "Terraria.bin.x86",
+   --       },
+   --    }, properties = {fullscreen = true}
+   -- },
+
+   -- "Switch to tag"
+   -- These clients make you switch to their tag when they appear
+   {
+      rule_any = {
+         class = {
+            "Firefox",
+            "subl",
+            "code-insiders",
+            "kitty -e ncmpcpp"
+         },
+      }, properties = {switchtotag = true}
+   },
+
+   -- Browsing
+
+     rule_any = {
+         class = {
+             "firefox",
+             "Nightly",
+             -- "qutebrowser",
+         },
+     },
+     except_any = {
+         role = { "GtkFileChooserDialog" },
+         instance = { "Toolkit" },
+         type = { "dialog" }
+     },
+     properties = { tag = "2" },
+
+      -- Text editor
       {
-         rule_any = {
-            instance = {
-               "DTA",
-               "copyq",
-            },
-            class = {
-               "Nm-connection-editor"
-            },
-            name = {
-               "Event Tester",
-               "Steam Guard - Computer Authorization Required"
-            },
-            role = {
-               "pop-up",
-               "GtkFileChooserDialog"
-            },
-            type = {
-               "dialog"
-            }
-         }, properties = {floating = true}
+          rule_any = {
+              class = {
+                  "code-insiders",
+                  "subl",
+                  "emacs"
+              },
+          },
+          properties = { tag = "3" },
       },
 
-      -- -- Fullscreen clients
-      -- {
-      --    rule_any = {
-      --       class = {
-      --          "Terraria.bin.x86",
-      --       },
-      --    }, properties = {fullscreen = true}
-      -- },
-
-      -- "Switch to tag"
-      -- These clients make you switch to their tag when they appear
+      -- File manager 
       {
-         rule_any = {
-            class = {
-               "Firefox",
-               "subl",
-               "code-insiders"
-            },
-         }, properties = {switchtotag = true}
+          rule_any = {
+              class = {
+                  "thunar",
+                  "nemo"
+              },
+          },
+          properties = { tag = "4" },
       },
-
+      -- Mail client 
+      {
+          rule_any = {
+              class = {
+                  "thunderbird",
+                  "mailspring"
+              },
+          },
+          properties = { tag = "5" },
+      },
+      -- Social client 
+      {
+          rule_any = {
+              class = {
+                  "thunderbird",
+                  "mailspring"
+              },
+          },
+          properties = { tag = "7" },
+      },
       -- Visualizer
       {
          rule_any = {name = {"cava"}},
