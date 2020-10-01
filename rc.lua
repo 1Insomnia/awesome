@@ -32,7 +32,7 @@ require("components.notifications")
 -- Import components
 require("components.exit-screen")
 require("components.volume-adjust")
-require("components.wallpaper")
+-- require("components.wallpaper")
 -- Autostart specified apps
 local apps = require("config.apps")
 apps.autostart()
@@ -56,7 +56,7 @@ awful.layout.layouts = {
 local tags = require("config.tags")
 
 -- Import panels
-local bottom_panel = require("components.bottom-panel")
+local bar = require("components.bar")
 
 -- Set up each screen (add tags & panels)
 awful.screen.connect_for_each_screen(function(s)
@@ -68,7 +68,7 @@ awful.screen.connect_for_each_screen(function(s)
       })
    end
   -- Add the top panel to every screen
-  bottom_panel.create(s)
+  bar.create(s)
 end)
 
 -- remove gaps if layout is set to max

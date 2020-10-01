@@ -257,9 +257,9 @@ end, battery_bar)
 -- Bar Creation
 -- ===================================================================
 
-local bottom_panel = {}
+local bar = {}
 
-bottom_panel.create = function(s)
+bar.create = function(s)
    local panel = awful.wibar({
       screen = s,
       position = "bottom",
@@ -308,4 +308,4 @@ bottom_panel.create = function(s)
 
 end
 
-return bottom_panel
+return bar
