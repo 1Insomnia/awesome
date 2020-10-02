@@ -23,7 +23,7 @@ local return_button = function()
 		{
 			id = 'icon',
 			widget = wibox.widget.imagebox,
-			image = widget_icon_dir .. 'package.png',
+			image = widget_icon_dir .. 'package.svg',
 			resize = true
 		},
 		layout = wibox.layout.align.horizontal
@@ -94,7 +94,7 @@ local return_button = function()
 				
 			end
 
-			widget.icon:set_image(widget_icon_dir .. icon_name .. '.png')
+			widget.icon:set_image(widget_icon_dir .. icon_name .. '.svg')
 			collectgarbage('collect')
 		end
 	)

@@ -10,14 +10,13 @@
 -- ===================================================================
 
 
-local clickable_container = require('widgets.clickable-container')
-local awful = require('awful')
+local clickable_container = require("widgets.clickable-container")
+local awful = require("awful")
 
 
 -- ===================================================================
 -- Widget Creation
 -- ===================================================================
-
 
 -- Create an imagebox widget which will contains an icon indicating which layout we're using.
 -- We need one layoutbox per screen.

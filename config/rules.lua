@@ -85,7 +85,7 @@ function rules.create(clientkeys, clientbuttons)
 
      rule_any = {
          class = {
-             "firefox",
+             "Firefox",
              "Nightly",
              -- "qutebrowser",
          },
@@ -123,8 +123,8 @@ function rules.create(clientkeys, clientbuttons)
       {
           rule_any = {
               class = {
-                  "thunderbird",
-                  "mailspring"
+                  "Thunderbird",
+                  "Mailspring"
               },
           },
           properties = { tag = "5" },
@@ -133,8 +133,8 @@ function rules.create(clientkeys, clientbuttons)
       {
           rule_any = {
               class = {
-                  "thunderbird",
-                  "mailspring"
+                  "Discord",
+                  "Telegram"
               },
           },
           properties = { tag = "7" },

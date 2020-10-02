@@ -19,6 +19,7 @@ local helpers = require("helpers")
 local apps = require("config.apps").default
 local keys = require("config.keys")
 
+
 -- Local scripts
 local volume = require("components.volume")
 
@@ -26,8 +27,10 @@ local volume = require("components.volume")
 local task_list = require("widgets.task-list")
 local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
+local updater = require("widgets.package-updater")()
 local battery = require("widgets.battery")
 local layout_box = require("widgets.layout-box")
+-- local add_button = require("widgets.open-default-app")(s)
 
 local tag_colors_empty = { "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", }
 
@@ -178,14 +181,6 @@ local create_button = function (symbol, color, bg_color, hover_color)
     return section
 end
 
--- Logout button
-local exit = create_button("", beautiful.red, beautiful.bg_normal .."C0", beautiful.white .."E0")
-exit:buttons(gears.table.join(
-    awful.button({ }, 1, function ()
-        awesome.emit_signal("show_exit_screen")
-    end)
-))
-
 -- Music
 local music = create_button("", beautiful.yellow, beautiful.bg_normal.."90", beautiful.white.."B0")
 
@@ -272,7 +267,7 @@ bar.create = function(s)
       layout = wibox.layout.align.horizontal,
       {
          layout = wibox.layout.fixed.horizontal,
-         exit,
+         require("widgets.launcher")(),
          task_list.create(s),
       },
       calendar,
@@ -283,9 +278,11 @@ bar.create = function(s)
          battery_bar,
          volume_bar,
          music,
+         updater,
          network,
          battery,
          layout_box,
+         require("widgets.logout")(),
       }
    }
 

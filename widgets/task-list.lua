@@ -17,8 +17,7 @@ local clickable_container = require('widgets.clickable-container')
 
 local dpi = require('beautiful').xresources.apply_dpi
 local capi = {button = button}
-local ICON_DIR = gears.filesystem.get_configuration_dir() .. "/icons/"
-
+local icons = require('icons')
 -- define module table
 local task_list = {}
 
@@ -71,7 +70,7 @@ local function list_update(w, buttons, label, data, objects)
       else
          ib = wibox.widget.imagebox()
          tb = wibox.widget.textbox()
-         cb = clickable_container(wibox.container.margin(wibox.widget.imagebox(ICON_DIR .. "close.png"), dpi(6), dpi(6), dpi(6), dpi(6)))
+         cb = clickable_container(wibox.container.margin(wibox.widget.imagebox(icons.close), dpi(6), dpi(6), dpi(6), dpi(6)))
          cb.shape = gears.shape.circle
          cbm = wibox.container.margin(cb, dpi(4), dpi(8), dpi(2), dpi(2)) -- 4, 8 ,12 ,12 -- close button
          cbm:buttons(gears.table.join(awful.button({}, 1, nil,

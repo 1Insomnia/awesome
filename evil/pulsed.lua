@@ -1,6 +1,5 @@
 local awful = require("awful")
 local volume = require("components.volume")
--- local naughty = require("naughty")
 
 local function onstdout(out)
     if out:match("Event 'change' on sink #0") then

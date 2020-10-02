@@ -9,10 +9,7 @@
 -- Imports
 -- ===================================================================
 
-
-local dir = os.getenv("HOME") .. "/.config/awesome/icons/tags/"
 local awful = require("awful")
-
 
 -- ===================================================================
 -- Define tags

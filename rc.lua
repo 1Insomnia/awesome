@@ -31,7 +31,6 @@ require("components.notifications")
 
 -- Import components
 require("components.exit-screen")
--- require("components.wallpaper")
 -- Autostart specified apps
 local apps = require("config.apps")
 apps.autostart()
