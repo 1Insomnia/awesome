@@ -12,8 +12,10 @@ local battery_bar = wibox.widget{
   value         = 50,
     forced_height = dpi(10),
     margins       = {
-      top = dpi(8),
-      bottom = dpi(8),
+      top = dpi(7),
+      left = dpi(7),
+      right = dpi(7),
+      bottom = dpi(7),
     },
     forced_width  = dpi(200),
   shape         = gears.shape.rounded_bar,

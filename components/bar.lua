@@ -25,23 +25,22 @@ local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
 
--- Helper function that changes the appearance of progress bars and their icons
+-- Helper function that changes the appearance of progress bars 
 local function format_progress_bar(bar)
-    -- Since we will rotate the bars 90 degrees, width and height are reversed
     bar.forced_width = dpi(100)
-    bar.forced_height = dpi(25)
+    bar.forced_height = dpi(10)
     bar.shape = gears.shape.rectangle
     bar.bar_shape = gears.shape.rectangle
     local w = wibox.widget{
         bar,
-        margin = dpi(10),
-        direction = 'east',
+        -- direction = 'east',
+        margin = dpi(15),
         layout = wibox.layout.stack,
     }
     return w
 end
 
-
+-- Build bar widgets
 local volume_bar = require("noodle.volume_bar")
 local volume = format_progress_bar(volume_bar)
 local cpu_bar = require("noodle.cpu_bar")
@@ -51,7 +50,7 @@ local ram = format_progress_bar(ram_bar)
 local battery_bar = require("noodle.battery_bar")
 local battery = format_progress_bar(battery_bar)
 
-
+-- Button handling for bar widgets
 volume:buttons(gears.table.join(
     -- Left click - Mute / Unmute
     awful.button({ }, 1, function ()
@@ -61,24 +60,29 @@ volume:buttons(gears.table.join(
     awful.button({ }, 3, apps.volume),
     -- Scroll - Increase / Decrease volume
     awful.button({ }, 4, function () 
-        helpers.volume_control(2)
+        helpers.volume_control(5)
+    end),
+    awful.button({ }, 5, function () 
+        helpers.volume_control(-5)
     end)
-       -- awful.button({}, 1,
-      -- function ()
-       --   helpers.volume_control(0)
-      -- end
 ))
 
+-- Left/Right click toggle default app monitor
 cpu:buttons(gears.table.join(
         awful.button({ }, 1, apps.process_monitor),
         awful.button({ }, 3, apps.process_monitor_gui)
 ))
 
--- ram:buttons(
---     gears.table.join(
---         awful.button({ }, 1, apps.process_monitor),
---         awful.button({ }, 3, apps.process_monitor_gui)
--- ))
+-- Left/Right click toggle default app monitor
+ram:buttons(
+    gears.table.join(
+        awful.button({ }, 1, apps.process_monitor),
+        awful.button({ }, 3, apps.process_monitor_gui)
+))
+
+battery:buttons(gears.table.join(
+    awful.button({ }, 1, apps.battery_monitor)
+))
 
 local adaptive_tooltip = wibox.widget {
     visible = false,
@@ -86,7 +90,7 @@ local adaptive_tooltip = wibox.widget {
     layout = wibox.layout.stack
 }
 
--- Create tooltip for widget w
+-- Create tooltip for widget 
 local tooltip_counter = 0
 local create_tooltip = function(w)
     local tooltip = wibox.widget {

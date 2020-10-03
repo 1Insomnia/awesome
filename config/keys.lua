@@ -18,7 +18,7 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 
 -- Default Applications
-local apps = require("config.apps")
+local apps = require("config.apps").default
 local volume = require("components.volume")
 local helpers = require("helpers")
 
@@ -29,11 +29,9 @@ local altkey = "Mod1"
 -- define module table
 local keys = {}
 
-
 -- ===================================================================
 -- Movement Functions (Called by some keybinds)
 -- ===================================================================
-
 
 -- Move given client to given direction
 local function move_client(c, direction)
@@ -90,7 +88,6 @@ local function resize_client(c, direction)
    end
 end
 
-
 -- raise focused client
 local function raise_client()
    if client.focus then
@@ -98,11 +95,9 @@ local function raise_client()
    end
 end
 
-
 -- ===================================================================
 -- Mouse bindings
 -- ===================================================================
-
 
 -- Mouse buttons on the desktop
 keys.desktopbuttons = gears.table.join(

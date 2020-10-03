@@ -35,17 +35,26 @@ apps.default = {
 }
 
 
-
+-- Lauch htop 
 apps.process_monitor = function ()
     helpers.run_or_raise({instance = 'htop'}, false, user.terminal.." --class htop -e htop", { switchtotag = true })
 end
+
+-- Toggle pavucontrol
 apps.volume = function ()
     helpers.run_or_raise({class = 'Pavucontrol'}, true, "pavucontrol")
 end
+
+-- Launch battop
+apps.battery_monitor = function ()
+    helpers.run_or_raise({class = 'battop'}, false, user.terminal.." --class battop -e battop", { switchtotag = true, tag = mouse.screen.tags[5] })
+end
+
 -- Scratchpad terminal with tmux (see bin/scratchpad)
 apps.scratchpad = function()
     helpers.scratchpad({instance = "scratchpad"}, "scratchpad", nil)
 end
+
 -- ===================================================================
 -- Functionality
 -- ===================================================================
