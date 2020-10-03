@@ -129,6 +129,7 @@ end)
 local ram_bar_color = beautiful.red
 local volume_bar_color = beautiful.green
 local battery_bar_color = beautiful.blue
+local cpu_bar_color = beautiful.yellow
 -- define module table
 local function rounded_bar(color)
     return wibox.widget {
@@ -247,6 +248,17 @@ awful.widget.watch("cat /sys/class/power_supply/BAT1/capacity", 30, function(wid
     widget.value = tonumber(capacity)
 end, battery_bar)
 
+local cpu_bar = rounded_bar(cpu_bar_color)
+local cpu_idle_script = [[
+  sh -c "
+  vmstat 1 2 | tail -1 | awk '{printf \"%d\", $15}'
+  "]]
+-- Periodically get cpu info
+awful.widget.watch(cpu_idle_script, 5, function(widget, stdout)
+    -- local cpu_idle = stdout:match('+(.*)%.%d...(.*)%(')
+    local cpu_idle = stdout:match("^%s*(.-)%s*$")
+    widget.value = 100 - tonumber(cpu_idle)
+end, cpu_bar)
 -- ===================================================================
 -- Bar Creation
 -- ===================================================================
@@ -274,6 +286,7 @@ bar.create = function(s)
       {
          layout = wibox.layout.fixed.horizontal,
          wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
+         cpu_bar,
          ram_bar,
          battery_bar,
          volume_bar,

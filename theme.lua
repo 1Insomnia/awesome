@@ -20,8 +20,9 @@ local theme = {}
 -- ===================================================================
 -- Theme Variables
 -- ===================================================================
-gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() ..
-                          "wallpaper/bg.png", nil, {x = 0, y = 597})
+-- gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() ..
+                          -- "wallpaper/bg.png", nil, {x = 0, y = 597})
+gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() .. "wallpaper/onedark_triangle.png", nil)
 -- Font
 theme.font = "Rec Mono Casual 9"
 theme.title_font = "Rec Mono Casual 10"

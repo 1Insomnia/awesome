@@ -13,6 +13,7 @@
 
 local awful = require("awful")
 local filesystem = require("gears.filesystem")
+local hepers = require("helpers")
 
 -- define module table
 local apps = {}
