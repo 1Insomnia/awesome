@@ -16,7 +16,7 @@ local gears = require("gears")
 local dpi = beautiful.xresources.apply_dpi
 local xresources = require("beautiful.xresources")
 local helpers = require("helpers")
-local apps = require("config.apps").default
+local apps = require("config.apps")
 local keys = require("config.keys")
 
 -- Import widgets
@@ -24,7 +24,6 @@ local task_list = require("widgets.task-list")
 local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
--- local battery = require("widgets.battery")
 
 -- Helper function that changes the appearance of progress bars and their icons
 local function format_progress_bar(bar)
@@ -58,14 +57,28 @@ volume:buttons(gears.table.join(
     awful.button({ }, 1, function ()
         helpers.volume_control(0)
     end),
-    -- Right click - Run or raise pavucontrol
+    -- -- Right click - Run or raise pavucontrol
     awful.button({ }, 3, apps.volume),
     -- Scroll - Increase / Decrease volume
     awful.button({ }, 4, function () 
         helpers.volume_control(2)
     end)
+       -- awful.button({}, 1,
+      -- function ()
+       --   helpers.volume_control(0)
+      -- end
 ))
 
+cpu:buttons(gears.table.join(
+        awful.button({ }, 1, apps.process_monitor),
+        awful.button({ }, 3, apps.process_monitor_gui)
+))
+
+-- ram:buttons(
+--     gears.table.join(
+--         awful.button({ }, 1, apps.process_monitor),
+--         awful.button({ }, 3, apps.process_monitor_gui)
+-- ))
 
 local adaptive_tooltip = wibox.widget {
     visible = false,
@@ -255,7 +268,6 @@ bar.create = function(s)
          music,
          updater,
          network,
-         -- battery,
          require("widgets.logout")(),
       }
    }

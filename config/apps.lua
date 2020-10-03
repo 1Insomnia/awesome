@@ -13,7 +13,7 @@
 
 local awful = require("awful")
 local filesystem = require("gears.filesystem")
-local hepers = require("helpers")
+local helpers = require("helpers")
 
 -- define module table
 local apps = {}
@@ -34,17 +34,26 @@ apps.default = {
    filebrowser = "thunar"
 }
 
+
+
+apps.process_monitor = function ()
+    helpers.run_or_raise({instance = 'htop'}, false, user.terminal.." --class htop -e htop", { switchtotag = true })
+end
+apps.volume = function ()
+    helpers.run_or_raise({class = 'Pavucontrol'}, true, "pavucontrol")
+end
+-- Scratchpad terminal with tmux (see bin/scratchpad)
+apps.scratchpad = function()
+    helpers.scratchpad({instance = "scratchpad"}, "scratchpad", nil)
+end
+-- ===================================================================
+-- Functionality
+-- ===================================================================
 -- List of apps to start once on start-up
 local run_on_start_up = {
   "blueman-applet",
   "xrandr --output HDMI1 --auto --right-of eDP1"
 }
-
-
--- ===================================================================
--- Functionality
--- ===================================================================
-
 -- Run all the apps listed in run_on_start_up
 function apps.autostart()
    for _, app in ipairs(run_on_start_up) do

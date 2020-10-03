@@ -18,8 +18,9 @@ local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
 
 -- Default Applications
-local apps = require("config.apps").default
+local apps = require("config.apps")
 local volume = require("components.volume")
+local helpers = require("helpers")
 
 -- Define mod keys
 local modkey = "Mod4"
@@ -159,6 +160,12 @@ keys.globalkeys = gears.table.join(
          awful.spawn(apps.music)
       end,
       {description = "application launcher", group = "launcher"}
+   ),
+   awful.key({modkey}, "F4",
+      function()
+         awful.util.spawn(apps.volume, false)
+      end,
+      {description = "open a terminal", group = "launcher"}
    ),
    -- =========================================
    -- FUNCTION KEYS
