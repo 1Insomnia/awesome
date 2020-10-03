@@ -35,6 +35,8 @@ require("components.exit-screen")
 local apps = require("config.apps")
 apps.autostart()
 
+require("evil")
+
 local helpers = require("helpers")
 local volume = require("components.volume")
 

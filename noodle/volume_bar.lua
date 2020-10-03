@@ -1,12 +1,13 @@
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
 
 -- Set colors
-local active_color = beautiful.volume_bar_active_color or "#5AA3CC"
-local muted_color = beautiful.volume_bar_muted_color or "#666666"
-local active_background_color = beautiful.volume_bar_active_background_color or "#222222"
-local muted_background_color = beautiful.volume_bar_muted_background_color or "#222222"
+local active_color = beautiful.yellow
+local muted_color = beautiful.brightBlack
+local active_background_color = beautiful.bg_normal
+local muted_background_color = beautiful.bg_normal
 
 local volume_bar = wibox.widget{
     max_value     = 100,

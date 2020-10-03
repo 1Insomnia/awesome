@@ -19,19 +19,115 @@ local helpers = require("helpers")
 local apps = require("config.apps").default
 local keys = require("config.keys")
 
-
--- Local scripts
-local volume = require("components.volume")
-
--- import widgets
+-- Import widgets
 local task_list = require("widgets.task-list")
 local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
-local battery = require("widgets.battery")
-local layout_box = require("widgets.layout-box")
--- local add_button = require("widgets.open-default-app")(s)
+-- local battery = require("widgets.battery")
 
+-- Helper function that changes the appearance of progress bars and their icons
+local function format_progress_bar(bar)
+    -- Since we will rotate the bars 90 degrees, width and height are reversed
+    bar.forced_width = dpi(100)
+    bar.forced_height = dpi(25)
+    bar.shape = gears.shape.rectangle
+    bar.bar_shape = gears.shape.rectangle
+    local w = wibox.widget{
+        bar,
+        margin = dpi(10),
+        direction = 'east',
+        layout = wibox.layout.stack,
+    }
+    return w
+end
+
+
+local volume_bar = require("noodle.volume_bar")
+local volume = format_progress_bar(volume_bar)
+local cpu_bar = require("noodle.cpu_bar")
+local cpu = format_progress_bar(cpu_bar)
+local ram_bar = require("noodle.ram_bar")
+local ram = format_progress_bar(ram_bar)
+local battery_bar = require("noodle.battery_bar")
+local battery = format_progress_bar(battery_bar)
+
+
+volume:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        helpers.volume_control(0)
+    end),
+    -- Right click - Run or raise pavucontrol
+    awful.button({ }, 3, apps.volume),
+    -- Scroll - Increase / Decrease volume
+    awful.button({ }, 4, function () 
+        helpers.volume_control(2)
+    end)
+))
+
+
+local adaptive_tooltip = wibox.widget {
+    visible = false,
+    top_only = true,
+    layout = wibox.layout.stack
+}
+
+-- Create tooltip for widget w
+local tooltip_counter = 0
+local create_tooltip = function(w)
+    local tooltip = wibox.widget {
+        font = "Recursive Mono Casual 10",
+        align = "center",
+        valign = "center",
+        widget = wibox.widget.textbox
+    }
+
+    tooltip_counter = tooltip_counter + 1
+    local index = tooltip_counter
+
+    adaptive_tooltip:insert(index, tooltip)
+
+    w:connect_signal("mouse::enter", function()
+        -- Raise tooltip to the top of the stack
+        adaptive_tooltip:set(1, tooltip)
+        adaptive_tooltip.visible = true
+    end)
+    w:connect_signal("mouse::leave", function ()
+        adaptive_tooltip.visible = false
+    end)
+
+    return tooltip
+end
+
+local volume_tooltip = create_tooltip(volume_bar)
+awesome.connect_signal("evil::volume", function(value, muted)
+    volume_tooltip.markup = "The volume is at <span foreground='" .. beautiful.volume_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
+    if muted then
+        volume_tooltip.markup = volume_tooltip.markup.." and <span foreground='" .. beautiful.volume_bar_active_color .."'><b>muted</b></span>"
+    end
+end)
+
+local cpu_tooltip = create_tooltip(cpu_bar)
+awesome.connect_signal("evil::cpu", function(value)
+    cpu_tooltip.markup = "You are using <span foreground='" .. beautiful.cpu_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span> of CPU"
+end)
+
+local ram_tooltip = create_tooltip(ram_bar)
+awesome.connect_signal("evil::ram", function(value, _)
+    ram_tooltip.markup = "You are using <span foreground='" .. beautiful.ram_bar_active_color .."'><b>" .. string.format("%.1f", value / 1000) .. "G</b></span> of memory"
+end)
+
+local battery_tooltip = create_tooltip(battery_bar)
+awesome.connect_signal("evil::battery", function(value)
+    battery_tooltip.markup = "Your battery is at <span foreground='" .. beautiful.battery_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
+end)
+
+helpers.add_hover_cursor(volume, "hand1")
+helpers.add_hover_cursor(cpu, "hand1")
+helpers.add_hover_cursor(ram, "hand1")
+helpers.add_hover_cursor(battery, "hand1")
+-- import widgets
 local tag_colors_empty = { "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", }
 
 local tag_colors_urgent = {
@@ -125,140 +221,6 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 
 
--- Bar color
-local ram_bar_color = beautiful.red
-local volume_bar_color = beautiful.green
-local battery_bar_color = beautiful.blue
-local cpu_bar_color = beautiful.yellow
--- define module table
-local function rounded_bar(color)
-    return wibox.widget {
-        max_value     = 100,
-        value         = 0,
-        forced_height = dpi(10),
-        forced_width  = dpi(100),
-        margins       = {
-          top = dpi(10),
-          bottom = dpi(10),
-          left = dpi(10),
-          right = dpi(10),
-        },
-        shape         = gears.shape.rectangle,
-        border_width  = 0,
-        color         = color,
-        background_color = beautiful.bg_bar,
-        border_color  = beautiful.border_color,
-        widget        = wibox.widget.progressbar,
-    }
-end
--- Helper function that creates a button widget
-local create_button = function (symbol, color, bg_color, hover_color)
-    local widget = wibox.widget {
-        font = "icomoon 14",
-        align = "center",
-        id = "text_role",
-        valign = "center",
-        markup = helpers.colorize_text(symbol, color),
-        widget = wibox.widget.textbox()
-    }
-
-    local section = wibox.widget {
-        widget,
-        forced_width = dpi(40),
-        bg = bg_color,
-        widget = wibox.container.background
-    }
-
-    -- Hover animation
-    section:connect_signal("mouse::enter", function ()
-        section.bg = hover_color
-    end)
-    section:connect_signal("mouse::leave", function ()
-        section.bg = bg_color
-    end)
-
-    -- helpers.add_hover_cursor(section, "hand1")
-
-    return section
-end
-
--- Music
-local music = create_button("", beautiful.yellow, beautiful.bg_normal.."90", beautiful.white.."B0")
-
-music:buttons(gears.table.join(
-    awful.button({ }, 1, function ()
-         awful.spawn(apps.music)
-    end),
-    awful.button({ }, 3, function ()
-         awful.spawn(apps.music)
-    end),
-    -- Scrolling: Adjust mpd volume
-    awful.button({ }, 4, function ()
-        awful.spawn.with_shell("mpc volume +5")
-    end),
-    awful.button({ }, 5, function ()
-        awful.spawn.with_shell("mpc volume -5")
-    end)
-))
-
--- Volume bar
-local volume_bar = rounded_bar(volume_bar_color)
-function update_volume_bar(vol, mute)
-    volume_bar.value = vol
-    if mute then
-        volume_bar.color = beautiful.xforeground
-    else
-        volume_bar.color = volume_bar_color
-    end
-end
-
-volume_bar:buttons(gears.table.join(
-    awful.button({ }, 4, volume.volume_up),
-    awful.button({ }, 5, volume.volume_down),
-    awful.button({ }, 1, volume.volume_mute)))
-
-awesome.connect_signal("evil::volume", update_volume_bar)
-
--- Init widget state
-volume.get_volume_state(update_volume_bar)
-
--- Update widget when headphones conneted
-awesome.connect_signal("acpi::headphones", function()
-    volume.get_volume_state(update_volume_bar)
-end)
-
--- Ram bar
-local ram_bar = rounded_bar(ram_bar_color)
-
-awful.widget.watch("cat /proc/meminfo", 5, function(widget, stdout)
-  local total = stdout:match("MemTotal:%s+(%d+)")
-  local free = stdout:match("MemFree:%s+(%d+)")
-  local buffers = stdout:match("Buffers:%s+(%d+)")
-  local cached = stdout:match("Cached:%s+(%d+)")
-  local srec = stdout:match("SReclaimable:%s+(%d+)")
-  local used_kb = total - free - buffers - cached - srec
-  widget.value = used_kb / total * 100
-end, ram_bar)
-
--- Battery bar
-local battery_bar = rounded_bar(battery_bar_color)
-
-awful.widget.watch("cat /sys/class/power_supply/BAT1/capacity", 30, function(widget, stdout)
-    local capacity = stdout:match("^%s*(.-)%s*$")
-    widget.value = tonumber(capacity)
-end, battery_bar)
-
-local cpu_bar = rounded_bar(cpu_bar_color)
-local cpu_idle_script = [[
-  sh -c "
-  vmstat 1 2 | tail -1 | awk '{printf \"%d\", $15}'
-  "]]
--- Periodically get cpu info
-awful.widget.watch(cpu_idle_script, 5, function(widget, stdout)
-    -- local cpu_idle = stdout:match('+(.*)%.%d...(.*)%(')
-    local cpu_idle = stdout:match("^%s*(.-)%s*$")
-    widget.value = 100 - tonumber(cpu_idle)
-end, cpu_bar)
 -- ===================================================================
 -- Bar Creation
 -- ===================================================================
@@ -286,15 +248,14 @@ bar.create = function(s)
       {
          layout = wibox.layout.fixed.horizontal,
          wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
-         cpu_bar,
-         ram_bar,
-         battery_bar,
-         volume_bar,
+         cpu,
+         ram,
+         volume,
+         battery,
          music,
          updater,
          network,
-         battery,
-         layout_box,
+         -- battery,
          require("widgets.logout")(),
       }
    }

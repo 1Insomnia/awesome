@@ -1,10 +1,11 @@
 local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
+local dpi = beautiful.xresources.apply_dpi
 
 -- Set colors
-local active_color = beautiful.ram_bar_active_color or "#5AA3CC"
-local background_color = beautiful.ram_bar_background_color or "#222222"
+local active_color = beautiful.green
+local background_color = beautiful.bg_normal
 
 local ram_bar = wibox.widget{
     max_value     = 100,
