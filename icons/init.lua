@@ -9,4 +9,7 @@ return {
     close               = dir .. 'close.png',
     power               = dir .. 'power.png',
     menu                 = dir .. 'menu.png',
+    
+    screenshot = dir .."linebit/screenshot.png",
+
 }

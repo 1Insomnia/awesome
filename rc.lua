@@ -8,49 +8,6 @@
 -- ===================================================================
 -- Initialization
 -- ===================================================================
-
--- Standard awesome library
-local gears = require("gears")
-local awful = require("awful")
-
--- Import theme
-local beautiful = require("beautiful")
-beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
-
--- Import Keybinds
-local keys = require("config.keys")
-root.keys(keys.globalkeys)
-root.buttons(keys.desktopbuttons)
-
--- Import rules
-local create_rules = require("config.rules").create
-awful.rules.rules = create_rules(keys.clientkeys, keys.clientbuttons)
-
--- Import notification appearance
-require("components.notifications")
-
--- Import components
-require("components.exit-screen")
--- Autostart specified apps
-local apps = require("config.apps")
-apps.autostart()
-
-require("evil")
-
-local helpers = require("helpers")
-local volume = require("components.volume")
-
--- ===================================================================
--- Set Up Screen & Connect Signals
--- ===================================================================
-
--- Define tag layouts
-awful.layout.layouts = {
-   awful.layout.suit.tile,
-   awful.layout.suit.floating,
-   awful.layout.suit.max,
-}
-
 user = {
     -- >> Default applications <<
     -- Check apps.lua for more
@@ -93,7 +50,6 @@ user = {
     -- as described in the README instructions
     -- Leave it empty in order to unlock with just the Enter key.
     -- lock_screen_custom_password = "",
-    lock_screen_custom_password = "awesome",
 
     -- >> Battery <<
     -- You will receive notifications when your battery reaches these
@@ -103,15 +59,99 @@ user = {
    -- >> Coronavirus <<
     -- Country to check for corona statistics
     -- Uses the https://corona-stats.online API
-    coronavirus_country = "germany",
+    coronavirus_country = "france",
 }
+
+local beautiful = require("beautiful")
+local xrdb = beautiful.xresources.get_current_theme()
+-- Make dpi function global
+dpi = beautiful.xresources.apply_dpi
+-- Make xresources colors global
+x = {
+    --           xrdb variable
+    background = xrdb.background,
+    foreground = xrdb.foreground,
+    color0     = xrdb.color0,
+    color1     = xrdb.color1,
+    color2     = xrdb.color2,
+    color3     = xrdb.color3,
+    color4     = xrdb.color4,
+    color5     = xrdb.color5,
+    color6     = xrdb.color6,
+    color7     = xrdb.color7,
+    color8     = xrdb.color8,
+    color9     = xrdb.color9,
+    color10    = xrdb.color10,
+    color11    = xrdb.color11,
+    color12    = xrdb.color12,
+    color13    = xrdb.color13,
+    color14    = xrdb.color14,
+    color15    = xrdb.color15,
+}
+-- Load AwesomeWM libraries
+local gears = require("gears")
+local awful = require("awful")
+-- Notif library
+local naughty = require("naughty")
+require("awful.autofocus")
+
+-- Import theme
+local beautiful = require("beautiful")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
+
+-- Error handling
+-- ===================================================================
+naughty.connect_signal("request::display_error", function(message, startup)
+    naughty.notification {
+        urgency = "critical",
+        title   = "Oops, an error happened"..(startup and " during startup!" or "!"),
+        message = message
+    }
+end)
+
+-- Icons baby
+local icons = require("icons")
+
+-- Import Keybinds
+local keys = require("config.keys")
+root.keys(keys.globalkeys)
+root.buttons(keys.desktopbuttons)
+
+-- Import rules
+local create_rules = require("config.rules").create
+awful.rules.rules = create_rules(keys.clientkeys, keys.clientbuttons)
+
+-- Import notification appearance
+require("components.notifications")
+local helpers = require("helpers")
+-- Import components
+require("components.exit-screen")
+local bar = require("components.bar")
+
+-- Autostart specified apps
+local apps = require("config.apps")
+-- require("components.dash")
+apps.autostart()
+require("evil")
+
+
+-- ===================================================================
+-- Set Up Screen & Connect Signals
+-- ===================================================================
+
+-- Define tag layouts
+awful.layout.layouts = {
+   awful.layout.suit.tile,
+   awful.layout.suit.floating,
+   awful.layout.suit.max,
+}
+
+
 
 -- Import tag settings
 local tags = require("config.tags")
 
--- Import panels
-local bar = require("components.bar")
-
+-- require("components.dash")
 -- Set up each screen (add tags & panels)
 awful.screen.connect_for_each_screen(function(s)
    for i, tag in pairs(tags) do
@@ -152,9 +192,6 @@ end)
 -- Client Focusing
 -- ===================================================================
 
-
--- Autofocus a new client when previously focused one is closed
-require("awful.autofocus")
 
 -- Focus clients under mouse
 client.connect_signal("mouse::enter", function(c)
