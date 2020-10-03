@@ -470,7 +470,7 @@ local uptime_box = create_boxed_widget(uptime, dpi(300), dpi(80), x.background)
 
 uptime_box:buttons(gears.table.join(
     awful.button({ }, 1, function ()
-        exit_screen_show()
+        awesome.emit_signal("show_exit_screen")
         gears.timer.delayed_call(function()
             dashboard_hide()
         end)

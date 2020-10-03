@@ -45,25 +45,24 @@ theme.fg_minimize = "#ffffff"
 
 -- 16 Colors
 -- Normal
-theme.black   = "#3D4C5F"
-theme.red     = "#EE4F84" 
-theme.green   = "#53E2AE" 
-theme.yellow  = "#F1FF52" 
-theme.blue    = "#6498EF" 
-theme.magenta = "#985EFF"
-theme.cyan    = "#24D1E7"
-theme.white   = "#E5E5E5" 
+theme.black   = "#1e2127"
+theme.red     = "#e06c75" 
+theme.green   = "#98c379" 
+theme.yellow  = "#d19a66" 
+theme.blue    = "#61afef" 
+theme.magenta = "#c678dd"
+theme.cyan    = "#56b6c2"
+theme.white   = "#828791" 
 
 -- Bright
-theme.brightBlack   = "#56687E"
-theme.brightRed     = "#F48FB1"
-theme.brightGreen   = "#A1EFD3"
-theme.brightYellow  = "#F1FA8C"
-theme.brightBlue    = "#92B6F4"
-theme.brightMagenta = "#BD99FF"
-theme.brightCyan    = "#87DFEB"
-theme.brightWhite   = "#F8F8F2"
-
+theme.brightBlack   = "#5c6370"
+theme.brightRed     = "#e06c75"
+theme.brightGreen   = "#98c379"
+theme.brightYellow  = "#d19a66"
+theme.brightBlue    = "#61afef"
+theme.brightMagenta = "#c678dd"
+theme.brightCyan    = "#56b6c2"
+theme.brightWhite   = "#e6efff"
 
 -- Window Gap Distance
 theme.useless_gap = dpi(10)

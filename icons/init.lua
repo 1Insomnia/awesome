@@ -8,7 +8,7 @@ return {
     -- Others/System UI
     close               = dir .. 'close.png',
     power               = dir .. 'power.png',
-    menu                 = dir .. 'menu.png',
+    menu                 = dir .. 'menu.svg',
     
     screenshot = dir .."linebit/screenshot.png",
 
