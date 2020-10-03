@@ -35,7 +35,7 @@ local return_button = function()
 				1,
 				nil,
 				function()
-        	awful.spawn.with_shell("rofi -show drun")
+					dashboard_show()
 				end
 			)
 		)

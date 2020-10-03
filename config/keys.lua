@@ -106,6 +106,11 @@ keys.desktopbuttons = gears.table.join(
       function ()
          naughty.destroy_all_notifications()
       end
+   ),
+   awful.button({}, 3,
+      function ()
+         dashboard_show()
+      end
    )
 )
 

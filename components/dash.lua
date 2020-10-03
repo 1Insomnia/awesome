@@ -6,7 +6,6 @@ local naughty = require("naughty")
 local icons = require("icons")
 local helpers = require("helpers")
 local apps = require("config.apps")
-local dpi = beautiful.xresources.apply_dpi
 
 local keygrabber = require("awful.keygrabber")
 
