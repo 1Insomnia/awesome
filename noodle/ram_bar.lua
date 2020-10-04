@@ -4,7 +4,7 @@ local beautiful = require("beautiful")
 
 -- Set colors
 local active_color = beautiful.green
-local background_color = beautiful.bg_normal
+local background_color = beautiful.bg_dim
 
 local ram_bar = wibox.widget{
     max_value     = 100,

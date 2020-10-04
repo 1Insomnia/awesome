@@ -111,6 +111,7 @@ end)
 
 -- Icons baby
 local icons = require("icons")
+icons.init("sheet")
 
 -- Import Keybinds
 local keys = require("config.keys")
@@ -122,7 +123,11 @@ local create_rules = require("config.rules").create
 awful.rules.rules = create_rules(keys.clientkeys, keys.clientbuttons)
 
 -- Import notification appearance
-require("components.notifications")
+local notifications = require("notifications")
+notifications.init("simple")
+
+-- local notifications = require("notifications")
+-- notifications.init("notifications.notif")
 local helpers = require("helpers")
 -- Import components
 require("components.exit-screen")
@@ -131,6 +136,7 @@ local bar = require("components.bar")
 -- Autostart specified apps
 local apps = require("config.apps")
 require("components.dash")
+-- require("components.side")
 apps.autostart()
 require("evil")
 
@@ -145,8 +151,6 @@ awful.layout.layouts = {
    awful.layout.suit.floating,
    awful.layout.suit.max,
 }
-
-
 
 -- Import tag settings
 local tags = require("config.tags")

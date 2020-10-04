@@ -55,8 +55,7 @@ function rules.create(clientkeys, clientbuttons)
             "Nm-connection-editor"
          },
          name = {
-            "Event Tester",
-            "Steam Guard - Computer Authorization Required"
+            "Event Tester"
          },
          role = {
             "pop-up",
@@ -75,7 +74,7 @@ function rules.create(clientkeys, clientbuttons)
          class = {
             "Firefox",
             "Subl",
-            "code-insiders",
+            "Code",
             "kitty -e ncmpcpp"
          },
       }, properties = {switchtotag = true}
@@ -87,7 +86,7 @@ function rules.create(clientkeys, clientbuttons)
          class = {
              "Firefox",
              "Nightly",
-             -- "qutebrowser",
+             "qutebrowser"
          },
      },
      except_any = {
@@ -103,7 +102,7 @@ function rules.create(clientkeys, clientbuttons)
               class = {
                   "code-insiders",
                   "Subl",
-                  "emacs"
+                  "Emacs"
               },
           },
           properties = { tag = "3" },

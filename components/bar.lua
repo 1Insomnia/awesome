@@ -17,6 +17,7 @@ local xresources = require("beautiful.xresources")
 local helpers = require("helpers")
 local apps = require("config.apps")
 local keys = require("config.keys")
+local icons = require('icons')
 
 -- Import widgets
 local task_list = require("widgets.task-list")
@@ -28,7 +29,7 @@ local updater = require("widgets.package-updater")()
 local function format_progress_bar(bar)
     bar.forced_width = dpi(100)
     bar.forced_height = dpi(10)
-    bar.shape = gears.shape.rectangle
+    bar.shape = gears.shape.rounded_bar
     bar.bar_shape = gears.shape.rectangle
     local w = wibox.widget{
         bar,
@@ -37,6 +38,20 @@ local function format_progress_bar(bar)
         layout = wibox.layout.stack,
     }
     return w
+end
+
+local create_button = function (icon)
+    local widget = wibox.widget {
+        id = "icon",
+        image = icon,
+        widget = wibox.widget.imagebox,
+    }
+    local container = wibox.widget {
+        widget,
+        margins = dpi(4),
+        widget = wibox.container.margin
+    }
+    return container
 end
 
 -- Build bar widgets
@@ -48,6 +63,23 @@ local ram_bar = require("noodle.ram_bar")
 local ram = format_progress_bar(ram_bar)
 local battery_bar = require("noodle.battery_bar")
 local battery = format_progress_bar(battery_bar)
+local music = create_button(icons.music)
+
+-- Music 
+music:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, apps.music),
+    -- -- Right click - Run or raise pavucontrol
+    awful.button({ }, 3, apps.music),
+    -- Scroll - Increase / Decrease volume
+    awful.button({ }, 4, function () 
+        awful.spawn.with_shell("mpc volume +5")
+    end),
+    awful.button({ }, 5, function () 
+        awful.spawn.with_shell("mpc volume -5")
+    end)
+))
+
 
 -- Button handling for bar widgets
 volume:buttons(gears.table.join(
@@ -116,28 +148,28 @@ local create_tooltip = function(w)
     return tooltip
 end
 
-local volume_tooltip = create_tooltip(volume_bar)
-awesome.connect_signal("evil::volume", function(value, muted)
-    volume_tooltip.markup = "The volume is at <span foreground='" .. beautiful.volume_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
-    if muted then
-        volume_tooltip.markup = volume_tooltip.markup.." and <span foreground='" .. beautiful.volume_bar_active_color .."'><b>muted</b></span>"
-    end
-end)
+-- local volume_tooltip = create_tooltip(volume_bar)
+-- awesome.connect_signal("evil::volume", function(value, muted)
+--     volume_tooltip.markup = "The volume is at <span foreground='" .. beautiful.volume_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
+--     if muted then
+--         volume_tooltip.markup = volume_tooltip.markup.." and <span foreground='" .. beautiful.volume_bar_active_color .."'><b>muted</b></span>"
+--     end
+-- end)
 
-local cpu_tooltip = create_tooltip(cpu_bar)
-awesome.connect_signal("evil::cpu", function(value)
-    cpu_tooltip.markup = "You are using <span foreground='" .. beautiful.cpu_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span> of CPU"
-end)
+-- local cpu_tooltip = create_tooltip(cpu_bar)
+-- awesome.connect_signal("evil::cpu", function(value)
+--     cpu_tooltip.markup = "You are using <span foreground='" .. beautiful.cpu_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span> of CPU"
+-- end)
 
-local ram_tooltip = create_tooltip(ram_bar)
-awesome.connect_signal("evil::ram", function(value, _)
-    ram_tooltip.markup = "You are using <span foreground='" .. beautiful.ram_bar_active_color .."'><b>" .. string.format("%.1f", value / 1000) .. "G</b></span> of memory"
-end)
+-- local ram_tooltip = create_tooltip(ram_bar)
+-- awesome.connect_signal("evil::ram", function(value, _)
+--     ram_tooltip.markup = "You are using <span foreground='" .. beautiful.ram_bar_active_color .."'><b>" .. string.format("%.1f", value / 1000) .. "G</b></span> of memory"
+-- end)
 
-local battery_tooltip = create_tooltip(battery_bar)
-awesome.connect_signal("evil::battery", function(value)
-    battery_tooltip.markup = "Your battery is at <span foreground='" .. beautiful.battery_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
-end)
+-- local battery_tooltip = create_tooltip(battery_bar)
+-- awesome.connect_signal("evil::battery", function(value)
+--     battery_tooltip.markup = "Your battery is at <span foreground='" .. beautiful.battery_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
+-- end)
 
 helpers.add_hover_cursor(volume, "hand1")
 helpers.add_hover_cursor(cpu, "hand1")
@@ -258,6 +290,7 @@ bar.create = function(s)
       {
          layout = wibox.layout.fixed.horizontal,
          require("widgets.launcher")(),
+         music,
          task_list.create(s),
       },
       calendar,
@@ -268,7 +301,6 @@ bar.create = function(s)
          ram,
          volume,
          battery,
-         music,
          updater,
          network,
          require("widgets.logout")(),

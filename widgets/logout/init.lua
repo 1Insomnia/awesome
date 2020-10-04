@@ -12,7 +12,7 @@ local return_button = function()
 	local widget = wibox.widget {
 		{
 			id = 'icon',
-			image = icons.power,
+			image = icons.poweroff,
 			widget = wibox.widget.imagebox,
 			resize = true
 		},

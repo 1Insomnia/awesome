@@ -5,7 +5,7 @@ local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
 local wibox = require("wibox")
 local icons = require("icons")
-local notifications = require("components.notifications")
+local notifications = require("notifications")
 local naughty = require("naughty")
 
 local helpers = {}

@@ -34,6 +34,10 @@ apps.default = {
    filebrowser = "thunar"
 }
 
+-- Music
+apps.music = function ()
+    helpers.scratchpad({instance = "music"}, user.music_client)
+end
 
 -- Lauch htop 
 apps.process_monitor = function ()

@@ -17,7 +17,7 @@ local beautiful = require("beautiful")
 local clickable_container = require("widgets.clickable-container")
 
 local apps = require("config.apps").default
-local ICON_DIR = gears.filesystem.get_configuration_dir() .. "/icons/exit-screen/"
+local icons = require("icons")
 
 -- define module table
 local exit_screen = {}
@@ -89,7 +89,7 @@ local function reboot_command()
    awful.keygrabber.stop(exit_screen_grabber)
 end
 
-local poweroff = build_button(ICON_DIR .. "power.png", "Shutdown")
+local poweroff = build_button(icons.poweroff, "Shutdown")
 poweroff:connect_signal(
    "button::release",
    function()
@@ -97,7 +97,7 @@ poweroff:connect_signal(
    end
 )
 
-local reboot = build_button(ICON_DIR .. "restart.png", "Restart")
+local reboot = build_button(icons.reboot, "Restart")
 reboot:connect_signal(
    "button::release",
    function()
@@ -105,7 +105,7 @@ reboot:connect_signal(
    end
 )
 
-local suspend = build_button(ICON_DIR .. "sleep.png", "Sleep")
+local suspend = build_button(icons.suspend, "Sleep")
 suspend:connect_signal(
    "button::release",
    function()
@@ -113,7 +113,7 @@ suspend:connect_signal(
    end
 )
 
-local exit = build_button(ICON_DIR .. "logout.png", "Logout")
+local exit = build_button(icons.exit, "Logout")
 exit:connect_signal(
    "button::release",
    function()
@@ -121,7 +121,7 @@ exit:connect_signal(
    end
 )
 
-local lock = build_button(ICON_DIR .. "lock.png", "Lock")
+local lock = build_button(icons.lock, "Lock")
 lock:connect_signal(
    "button::release",
    function()

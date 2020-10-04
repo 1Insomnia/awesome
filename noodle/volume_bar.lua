@@ -5,8 +5,8 @@ local beautiful = require("beautiful")
 -- Set colors
 local active_color = beautiful.yellow
 local muted_color = beautiful.brightBlack
-local active_background_color = beautiful.bg_normal
-local muted_background_color = beautiful.bg_normal
+local active_background_color = beautiful.bg_dim
+local muted_background_color = beautiful.brightBlack
 
 local volume_bar = wibox.widget{
     max_value     = 100,
