@@ -323,24 +323,6 @@ corona_box:buttons(gears.table.join(
 ))
 helpers.add_hover_cursor(corona_box, "hand1")
 
--- Fortune
-local fortune_command = "fortune -n 140 -s"
-local fortune_update_interval = 3600
--- local fortune_command = "fortune -n 140 -s computers"
-local fortune = wibox.widget {
-    font = "sans medium 11",
-    text = "Loading your cookie...",
-    widget = wibox.widget.textbox
-}
-
-local update_fortune = function()
-    awful.spawn.easy_async_with_shell(fortune_command, function(out)
-        -- Remove trailing whitespaces
-        out = out:gsub('^%s*(.-)%s*$', '%1')
-        fortune.markup = "<i>"..helpers.colorize_text(out, x.color4).."</i>"
-    end)
-end
-
 gears.timer {
     autostart = true,
     timeout = fortune_update_interval,
@@ -360,15 +342,49 @@ local fortune_widget = wibox.widget {
     widget = wibox.container.margin
 }
 
-local fortune_box = create_boxed_widget(fortune_widget, dpi(300), dpi(140), x.background)
-fortune_box:buttons(gears.table.join(
-    -- Left click - New fortune
-    awful.button({ }, 1, update_fortune)
-))
-helpers.add_hover_cursor(fortune_box, "hand1")
 
+local mpd_buttons = require("noodle.mpd_buttons")
+local mpd_song = require("noodle.mpd_song")
+local mpd_widget_children = mpd_song:get_all_children()
+local mpd_title = mpd_widget_children[1]
+local mpd_artist = mpd_widget_children[2]
+mpd_title.font = "sans medium 12"
+mpd_artist.font = "sans medium 8"
+
+-- Set forced height in order to limit the widgets to one line.
+-- Might need to be adjusted depending on the font.
+mpd_title.forced_height = dpi(22)
+mpd_artist.forced_height = dpi(16)
+
+mpd_song:buttons(gears.table.join(
+    awful.button({ }, 1, function ()
+        awful.spawn.with_shell("mpc -q toggle")
+    end),
+    awful.button({ }, 3, apps.music),
+    awful.button({ }, 4, function ()
+        awful.spawn.with_shell("mpc -q prev")
+    end),
+    awful.button({ }, 5, function ()
+        awful.spawn.with_shell("mpc -q next")
+    end)
+))
+
+local mpd_widget = wibox.widget {
+    {
+        nil,
+        mpd_song,
+        mpd_buttons,
+        layout = wibox.layout.align.vertical,
+    },
+    margins = box_gap * 4,
+    color = "#00000000",
+    widget = wibox.container.margin
+}
+
+local mpd_box = create_boxed_widget(mpd_widget, dpi(300), dpi(140), x.background)
+helpers.add_hover_cursor(mpd_box, "hand1")
 -- URL launcher petals
-local petal_font = "Sans Bold 11"
+local petal_font = "Rec Mono Casual Bold 11"
 local function create_url_petal(text, bg_color, hover_color, url, tl, tr, br, bl)
     local petal_container = wibox.widget {
         bg = bg_color,
@@ -417,7 +433,7 @@ local function create_url_petal(text, bg_color, hover_color, url, tl, tr, br, bl
 end
 
 -- Create the containers
-local petal_top_left = create_url_petal("GH", x.color4, x.color12, "https://github.com/elenapan/dotfiles", true, true, false, true)
+local petal_top_left = create_url_petal("GH", x.color4, x.color12, "https://github.com/r0b0tx/dotfiles", true, true, false, true)
 local petal_top_right = create_url_petal("YT", x.color1, x.color9, "https://youtube.com/", true, true, true, false)
 local petal_bottom_right = create_url_petal("4C", x.color2, x.color10, "https://4chan.org/",false, true, true, true)
 local petal_bottom_left = create_url_petal("RD", x.color3, x.color11, "https://reddit.com/",true, false, true, true)
@@ -537,7 +553,7 @@ dashboard:setup {
             {
                 -- Column 1
                 user_box,
-                fortune_box,
+                mpd_box,
                 layout = wibox.layout.fixed.vertical
             },
             {

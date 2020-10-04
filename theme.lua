@@ -26,6 +26,7 @@ gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() .. "wallpaper/one
 -- Font
 theme.font = "Rec Mono Casual 9"
 theme.title_font = "Rec Mono Casual 10"
+theme.title_fg = "#FFF"
 
 -- Background
 theme.bg_normal = "#1e2127"
@@ -118,6 +119,37 @@ theme.tasklist_fg_normal = theme.fg_normal
 -- Notification Sizing
 theme.notification_max_width = dpi(350)
 
+
+-- Mpd song
+theme.mpd_song_title_color = x.color7
+theme.mpd_song_artist_color = x.color7
+theme.mpd_song_paused_color = x.color8
+
+-- Volume bar
+theme.volume_bar_active_color = x.color5
+theme.volume_bar_active_background_color = x.color0
+theme.volume_bar_muted_color = x.color8
+theme.volume_bar_muted_background_color = x.color0
+
+-- Temperature bar
+theme.temperature_bar_active_color = x.color1
+theme.temperature_bar_background_color = x.color0
+
+-- Battery bar
+theme.battery_bar_active_color = x.color6
+theme.battery_bar_background_color = x.color0
+
+-- CPU bar
+theme.cpu_bar_active_color = x.color2
+theme.cpu_bar_background_color = x.color0
+
+-- RAM bar
+theme.ram_bar_active_color = x.color4
+theme.ram_bar_background_color = x.color0
+
+-- Brightness bar
+theme.brightness_bar_active_color = x.color3
+theme.brightness_bar_background_color = x.color0
 
 -- ===================================================================
 -- Icons

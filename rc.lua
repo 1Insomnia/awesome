@@ -43,14 +43,6 @@ user = {
         hide_on_mouse_leave = true,
         show_on_mouse_screen_edge = true,
     },
-
-    -- >> Lock screen <<
-    -- This password will ONLY be used if you have not installed
-    -- https://github.com/RMTT/lua-pam
-    -- as described in the README instructions
-    -- Leave it empty in order to unlock with just the Enter key.
-    -- lock_screen_custom_password = "",
-
     -- >> Battery <<
     -- You will receive notifications when your battery reaches these
     -- levels.
@@ -136,7 +128,6 @@ local bar = require("components.bar")
 -- Autostart specified apps
 local apps = require("config.apps")
 require("components.dash")
-require("components.side")
 apps.autostart()
 require("evil")
 
