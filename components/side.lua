@@ -332,38 +332,38 @@ local create_tooltip = function(w)
     return tooltip
 end
 
-local brightness_tooltip = create_tooltip(brightness_bar)
-awesome.connect_signal("evil::brightness", function(value)
-    brightness_tooltip.markup = "Your screen is <span foreground='" .. beautiful.brightness_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span> bright"
-end)
+-- local brightness_tooltip = create_tooltip(brightness_bar)
+-- awesome.connect_signal("evil::brightness", function(value)
+--     brightness_tooltip.markup = "Your screen is <span foreground='" .. beautiful.brightness_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span> bright"
+-- end)
 
-local cpu_tooltip = create_tooltip(cpu_bar)
-awesome.connect_signal("evil::cpu", function(value)
-    cpu_tooltip.markup = "You are using <span foreground='" .. beautiful.cpu_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span> of CPU"
-end)
+-- local cpu_tooltip = create_tooltip(cpu_bar)
+-- awesome.connect_signal("evil::cpu", function(value)
+--     cpu_tooltip.markup = "You are using <span foreground='" .. beautiful.cpu_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span> of CPU"
+-- end)
 
-local ram_tooltip = create_tooltip(ram_bar)
-awesome.connect_signal("evil::ram", function(value, _)
-    ram_tooltip.markup = "You are using <span foreground='" .. beautiful.ram_bar_active_color .."'><b>" .. string.format("%.1f", value / 1000) .. "G</b></span> of memory"
-end)
+-- local ram_tooltip = create_tooltip(ram_bar)
+-- awesome.connect_signal("evil::ram", function(value, _)
+--     ram_tooltip.markup = "You are using <span foreground='" .. beautiful.ram_bar_active_color .."'><b>" .. string.format("%.1f", value / 1000) .. "G</b></span> of memory"
+-- end)
 
-local volume_tooltip = create_tooltip(volume_bar)
-awesome.connect_signal("evil::volume", function(value, muted)
-    volume_tooltip.markup = "The volume is at <span foreground='" .. beautiful.volume_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
-    if muted then
-        volume_tooltip.markup = volume_tooltip.markup.." and <span foreground='" .. beautiful.volume_bar_active_color .."'><b>muted</b></span>"
-    end
-end)
+-- local volume_tooltip = create_tooltip(volume_bar)
+-- awesome.connect_signal("evil::volume", function(value, muted)
+--     volume_tooltip.markup = "The volume is at <span foreground='" .. beautiful.volume_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
+--     if muted then
+--         volume_tooltip.markup = volume_tooltip.markup.." and <span foreground='" .. beautiful.volume_bar_active_color .."'><b>muted</b></span>"
+--     end
+-- end)
 
-local temperature_tooltip = create_tooltip(temperature_bar)
-awesome.connect_signal("evil::temperature", function(value)
-    temperature_tooltip.markup = "Your CPU temperature is at <span foreground='" .. beautiful.temperature_bar_active_color .."'><b>" .. tostring(value) .. "°C</b></span>"
-end)
+-- local temperature_tooltip = create_tooltip(temperature_bar)
+-- awesome.connect_signal("evil::temperature", function(value)
+--     temperature_tooltip.markup = "Your CPU temperature is at <span foreground='" .. beautiful.temperature_bar_active_color .."'><b>" .. tostring(value) .. "°C</b></span>"
+-- end)
 
-local battery_tooltip = create_tooltip(cute_battery_face)
-awesome.connect_signal("evil::battery", function(value)
-    battery_tooltip.markup = "Your battery is at <span foreground='" .. beautiful.battery_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
-end)
+-- local battery_tooltip = create_tooltip(cute_battery_face)
+-- awesome.connect_signal("evil::battery", function(value)
+--     battery_tooltip.markup = "Your battery is at <span foreground='" .. beautiful.battery_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
+-- end)
 
 -- Add clickable mouse effects on some widgets
 helpers.add_hover_cursor(cpu, "hand1")

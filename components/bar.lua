@@ -54,7 +54,7 @@ local create_button = function (icon)
     return container
 end
 
--- Build bar widgets
+-- Build widgets
 local volume_bar = require("noodle.volume_bar")
 local volume = format_progress_bar(volume_bar)
 local cpu_bar = require("noodle.cpu_bar")
@@ -64,6 +64,16 @@ local ram = format_progress_bar(ram_bar)
 local battery_bar = require("noodle.battery_bar")
 local battery = format_progress_bar(battery_bar)
 local music = create_button(icons.music)
+local power = create_button(icons.poweroff)
+
+-- Handling Buttons
+-- Power 
+power:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function () 
+        	awesome.emit_signal("show_exit_screen")
+    end)
+))
 
 -- Music 
 music:buttons(gears.table.join(
@@ -303,7 +313,7 @@ bar.create = function(s)
          battery,
          updater,
          network,
-         require("widgets.logout")(),
+         power,
       }
    }
 
