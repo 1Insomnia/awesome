@@ -184,13 +184,24 @@ keys.globalkeys = gears.table.join(
       {description = "-10%", group = "hotkeys"}
    ),
    -- Volume keys
-   awful.key({}, "XF86AudioMute", volume.volume_mute,
-             {description = "volume mute", group = "audio"}),
-   awful.key({}, "XF86AudioRaiseVolume", volume.volume_up,
-             {description = "volume up", group = "audio"}),
-   awful.key({}, "#XF86AudioLowerVolume", volume.volume_down,
-             {description = "volume down", group = "audio"}),
-
+   awful.key({}, "XF86AudioMute",
+      function()
+         helpers.volume_control(0)
+      end,
+      {description = "Mute", group = "hotkeys"}
+   ),
+   awful.key({}, "XF86AudioRaiseVolume",
+      function()
+         helpers.volume_control(5)
+      end,
+      {description = "Increase sound by 5", group = "hotkeys"}
+   ),
+   awful.key({}, "XF86AudioLowerVolume",
+      function()
+         helpers.volume_control(-5)
+      end,
+      {description = "Decrease sound by 5", group = "hotkeys"}
+   ),
    -- Mpd
    awful.key({}, "XF86AudioNext",
       function()
