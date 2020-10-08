@@ -21,6 +21,16 @@ local updater = require("widgets.package-updater")()
 local battery = require("widgets.battery")()
 
 
+local brightness_icon = wibox.widget.imagebox(icons.brightness)
+brightness_icon.resize = true
+brightness_icon.forced_width = icon_size
+brightness_icon.forced_height = icon_size
+
+local volume_icon = wibox.widget.imagebox(icons.volume)
+volume_icon.resize = true
+volume_icon.forced_width = icon_size
+volume_icon.forced_height = icon_size
+
 -- Helper function that changes the appearance of progress bars 
 local function format_progress_bar(bar)
     bar.forced_width = dpi(100)
@@ -50,6 +60,16 @@ local create_button = function (icon)
     return container
 end
 
+-- Helpers function to create a box with icon and bar
+local create_box = function(icon, bar)
+    local box = wibox.widget {
+        icon, 
+        bar,
+        spacing = dpi(5),
+        layout = wibox.layout.fixed.horizontal
+    }
+    return box
+end
 
 -- Build widgets
 local volume_bar = require("noodle.volume_bar")
@@ -58,9 +78,13 @@ local volume = format_progress_bar(volume_bar)
 local brightness_bar = require("noodle.brightness_bar")
 local brightness = format_progress_bar(brightness_bar)
 -- Buttons widgets
+local dashboard = create_button(icons.awesome)
 local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
 
+
+local brightness_box = create_box(brightness_icon, brightness_bar)
+local volume_box = create_box(volume_icon, volume_bar)
 
 -- Handling Buttons
 -- Power 
@@ -68,6 +92,13 @@ power:buttons(gears.table.join(
     -- Left click - Mute / Unmute
     awful.button({ }, 1, function () 
         	awesome.emit_signal("show_exit_screen")
+    end)
+))
+
+dashboard:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function () 
+        dashboard_show()	
     end)
 ))
 
@@ -89,7 +120,7 @@ music:buttons(gears.table.join(
 
 
 -- Button handling for bar widgets
-volume:buttons(gears.table.join(
+volume_box:buttons(gears.table.join(
     -- Left click - Mute / Unmute
     awful.button({ }, 1, function ()
         helpers.volume_control(0)
@@ -106,7 +137,7 @@ volume:buttons(gears.table.join(
 ))
 
 
-brightness:buttons(
+brightness_box:buttons(
     gears.table.join(
         -- Left click - Toggle redshift
         awful.button({ }, 1, apps.night_mode),
@@ -287,6 +318,7 @@ bar.create = function(s)
       layout = wibox.layout.align.horizontal,
       {
          layout = wibox.layout.fixed.horizontal,
+         dashboard,
          music,
          task_list.create(s),
       },
@@ -294,8 +326,8 @@ bar.create = function(s)
       {
          layout = wibox.layout.fixed.horizontal,
          wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
-         brightness,
-         volume,
+         brightness_box,
+         volume_box,
          battery,
          updater,
          network,
