@@ -124,7 +124,7 @@ local user_widget = wibox.widget {
     host_text,
     layout = wibox.layout.fixed.vertical
 }
-local user_box = create_boxed_widget(user_widget, dpi(300), dpi(340), x.background)
+local user_box = create_boxed_widget(user_widget, dpi(380), dpi(540), x.background)
 
 -- Calendar
 local calendar = require("noodle.calendar")
@@ -135,8 +135,7 @@ dashboard:connect_signal("property::visible", function ()
     end
 end)
 
-local calendar_box = create_boxed_widget(calendar, dpi(300), dpi(400), x.background)
--- local calendar_box = create_boxed_widget(calendar, 380, 540, x.color0)
+local calendar_box = create_boxed_widget(calendar, dpi(380), dpi(540), x.background)
 
 -- Time widget
 local hours = wibox.widget.textclock("%H  ")
@@ -154,7 +153,7 @@ local time = wibox.widget {
     minutes,
     layout = wibox.layout.fixed.vertical
 }
-local time_box = create_boxed_widget(time, dpi(150), dpi(150), x.background)
+local time_box = create_boxed_widget(time, dpi(150), dpi(260), x.background)
 
 -- Date
 local day_of_the_week = wibox.widget.textclock("%A")
@@ -176,7 +175,7 @@ local date = wibox.widget {
     day_of_the_month,
     layout = wibox.layout.align.vertical
 }
-local date_box = create_boxed_widget(date, dpi(150), dpi(150), x.background)
+local date_box = create_boxed_widget(date, dpi(150), dpi(260), x.background)
 
 -- File system bookmarks
 local function create_bookmark(name, path)
@@ -219,13 +218,13 @@ local bookmarks = wibox.widget {
     create_bookmark("HOME", os.getenv("HOME")),
     create_bookmark("DOWNLOADS", user.dirs.downloads),
     create_bookmark("MUSIC", user.dirs.music),
-    create_bookmark("PICTURES", user.dirs.pictures),
-    create_bookmark("WALLPAPERS", user.dirs.wallpapers),
+    create_bookmark("TMP", user.dirs.tmp),
+    create_bookmark("WALLPAPERS", user.dirs.walls),
     spacing = dpi(10),
     layout = wibox.layout.fixed.vertical
 }
 
-local bookmarks_box = create_boxed_widget(bookmarks, dpi(200), dpi(300), x.background)
+local bookmarks_box = create_boxed_widget(bookmarks, dpi(200), dpi(270), x.background)
 
 -- URLs
 local function create_url(name, path)
@@ -266,55 +265,15 @@ local function create_url(name, path)
 end
 
 local urls = wibox.widget {
-    create_url("4CHAN", "4chan.org"),
+    create_url("UNIXPORN", "reddit.com/r/unixporn"),
+    create_url("FRANCE", "reddit.com/r/france"),
     create_url("REDDIT", "reddit.com"),
-    create_url("GITHUB", "github.com/elenapan"),
+    create_url("GITHUB", "github.com/r0b0tx"),
     spacing = dpi(10),
     layout = wibox.layout.fixed.vertical
 }
 
-local urls_box = create_boxed_widget(urls, dpi(200), dpi(180), x.background)
-
--- Fortune
-local fortune_command = "fortune -n 140 -s"
--- local fortune_command = "fortune -n 140 -s computers"
-local fortune = wibox.widget {
-    font = "sans italic 12",
-    text = "Loading your cookie...",
-    widget = wibox.widget.textbox
-}
-
-local fortune_update_interval = 3600
-awful.widget.watch(fortune_command, fortune_update_interval, function(widget, stdout)
-    -- Remove trailing whitespaces
-    stdout = stdout:gsub('^%s*(.-)%s*$', '%1')
-    fortune.text = stdout
-end)
-
-local fortune_widget = wibox.widget {
-    {
-        nil,
-        fortune,
-        layout = wibox.layout.align.horizontal,
-    },
-    margins = box_gap * 4,
-    color = "#00000000",
-    widget = wibox.container.margin
-}
-
-
-local fortune_box = create_boxed_widget(fortune_widget, dpi(300), dpi(140), x.background)
-fortune_box:buttons(gears.table.join(
-    -- Left click - New fortune
-    awful.button({ }, 1, function ()
-        awful.spawn.easy_async_with_shell(fortune_command, function(out)
-            -- Remove trailing whitespaces
-            out = out:gsub('^%s*(.-)%s*$', '%1')
-            fortune.markup = "<i>"..out.."</i>"
-        end)
-    end)
-))
-helpers.add_hover_cursor(fortune_box, "hand1")
+local urls_box = create_boxed_widget(urls, dpi(200), dpi(270), x.background)
 
 local icon_size = dpi(40)
 
@@ -375,52 +334,6 @@ brightness_box:buttons(
 
 helpers.add_hover_cursor(brightness_box, "hand1")
 
-local notification_state = wibox.widget.imagebox(icons.alarm)
-notification_state.resize = true
-notification_state.forced_width = icon_size
-notification_state.forced_height = icon_size
--- local notification_state = wibox.widget.textbox()
--- notification_state.font = "Material Design Icons 30"
-local function update_notification_state_icon()
-    if naughty.suspended then
-        notification_state.image = icons.alarm_off
-    else
-        notification_state.image = icons.alarm
-    end
-end
-update_notification_state_icon()
-local notification_state_box = create_boxed_widget(notification_state, dpi(150), dpi(78), x.background)
-notification_state_box:buttons(gears.table.join(
-    -- Left click - Toggle notification state
-    awful.button({ }, 1, function ()
-        naughty.suspended = not naughty.suspended
-        update_notification_state_icon()
-    end)
-))
-
-helpers.add_hover_cursor(notification_state_box, "hand1")
-
-local screenshot = wibox.widget.imagebox(icons.screenshot)
-screenshot.resize = true
-screenshot.forced_width = icon_size
-screenshot.forced_height = icon_size
--- local screenshot = wibox.widget.textbox("")
--- screenshot.font = "Material Design Icons 30"
-local screenshot_box = create_boxed_widget(screenshot, dpi(150), dpi(78), x.background)
-screenshot_box:buttons(gears.table.join(
-    -- Left click - Take screenshot
-    awful.button({ }, 1, function ()
-        apps.screenshot("full")
-    end),
-    -- Right click - Take screenshot in 5 seconds
-    awful.button({ }, 3, function ()
-        naughty.notify({title = "Say cheese!", text = "Taking shot in 5 seconds", timeout = 4, icon = icons.screenshot})
-        apps.screenshot("full", 5)
-    end)
-))
-
-helpers.add_hover_cursor(screenshot_box, "hand1")
-
 -- Item placement
 dashboard:setup {
     -- Center boxes vertically
@@ -433,27 +346,23 @@ dashboard:setup {
             {
                 -- Column 1
                 user_box,
-                fortune_box,
                 layout = wibox.layout.fixed.vertical
             },
             {
                 -- Column 2
+                bookmarks_box,
                 time_box,
-                notification_state_box,
-                screenshot_box,
-                date_box,
                 layout = wibox.layout.fixed.vertical
             },
             {
                 -- Column 3
-                bookmarks_box,
                 urls_box,
+                date_box,
                 layout = wibox.layout.fixed.vertical
             },
             {
                 -- Column 4
                 calendar_box,
-                brightness_box,
                 layout = wibox.layout.fixed.vertical
             },
             layout = wibox.layout.fixed.horizontal

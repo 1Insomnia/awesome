@@ -78,7 +78,8 @@ local volume = format_progress_bar(volume_bar)
 local brightness_bar = require("noodle.brightness_bar")
 local brightness = format_progress_bar(brightness_bar)
 -- Buttons widgets
-local dashboard = create_button(icons.awesome)
+local dashboard = create_button(icons.awesome_menu)
+local search = create_button(icons.search)
 local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
 
@@ -102,6 +103,12 @@ dashboard:buttons(gears.table.join(
     end)
 ))
 
+search:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function () 
+        awful.spawn.with_shell("rofi fuzzy -show combi")	
+    end)
+))
 
 -- Music 
 music:buttons(gears.table.join(
@@ -155,50 +162,6 @@ brightness_box:buttons(
         end)
 ))
 
-
--- Tool
-local adaptive_tooltip = wibox.widget {
-    visible = false,
-    top_only = true,
-    layout = wibox.layout.stack
-}
-
-
--- Create tooltip for widget 
-local tooltip_counter = 0
-local create_tooltip = function(w)
-    local tooltip = wibox.widget {
-        font = "Recursive Mono Casual 10",
-        mode = "outside",
-        align = "right",
-        widget = wibox.widget.textbox
-    }
-
-    tooltip_counter = tooltip_counter + 1
-    local index = tooltip_counter
-
-    adaptive_tooltip:insert(index, tooltip)
-
-    w:connect_signal("mouse::enter", function()
-        -- Raise tooltip to the top of the stack
-        adaptive_tooltip:set(1, tooltip)
-        adaptive_tooltip.visible = true
-    end)
-    w:connect_signal("mouse::leave", function ()
-        adaptive_tooltip.visible = false
-    end)
-
-    return tooltip
-end
-
--- Build tooltip :TODO: 
-local volume_tooltip = create_tooltip(volume_bar)
-awesome.connect_signal("evil::volume", function(value, muted)
-    volume_tooltip.markup = "The volume is at <span foreground='" .. beautiful.volume_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
-    if muted then
-        volume_tooltip.markup = volume_tooltip.markup.." and <span foreground='" .. beautiful.volume_bar_active_color .."'><b>muted</b></span>"
-    end
-end)
 
 -- Add handle cursor when hovering
 helpers.add_hover_cursor(volume, "hand1")
@@ -319,6 +282,7 @@ bar.create = function(s)
       {
          layout = wibox.layout.fixed.horizontal,
          dashboard,
+         search,
          music,
          task_list.create(s),
       },
