@@ -1,23 +1,17 @@
---      ████████╗ ██████╗ ██████╗     ██████╗  █████╗ ███╗   ██╗███████╗██╗
---      ╚══██╔══╝██╔═══██╗██╔══██╗    ██╔══██╗██╔══██╗████╗  ██║██╔════╝██║
---         ██║   ██║   ██║██████╔╝    ██████╔╝███████║██╔██╗ ██║█████╗  ██║
---         ██║   ██║   ██║██╔═══╝     ██╔═══╝ ██╔══██║██║╚██╗██║██╔══╝  ██║
---         ██║   ╚██████╔╝██║         ██║     ██║  ██║██║ ╚████║███████╗███████╗
---         ╚═╝    ╚═════╝ ╚═╝         ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
-
--- ===================================================================
--- Initialization
--- ===================================================================
-
+-- Import libraries
 local awful = require("awful")
 local beautiful = require("beautiful")
 local wibox = require("wibox")
 local gears = require("gears")
 local xresources = require("beautiful.xresources")
 local helpers = require("helpers")
+
+
+-- Import defaults apps, keys and icons
 local apps = require("config.apps")
 local keys = require("config.keys")
 local icons = require('icons')
+
 
 -- Import widgets
 local task_list = require("widgets.task-list")
@@ -25,11 +19,12 @@ local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
 
+
 -- Helper function that changes the appearance of progress bars 
 local function format_progress_bar(bar)
     bar.forced_width = dpi(100)
     bar.forced_height = dpi(30)
-    bar.shape = gears.shape.rounded_bar
+    bar.shape = gears.shape.rectangle
     bar.bar_shape = gears.shape.rectangle
     local w = wibox.widget{
         bar,
@@ -54,6 +49,7 @@ local create_button = function (icon)
     return container
 end
 
+
 -- Build widgets
 local volume_bar = require("noodle.volume_bar")
 local volume = format_progress_bar(volume_bar)
@@ -66,6 +62,7 @@ local battery = format_progress_bar(battery_bar)
 local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
 
+
 -- Handling Buttons
 -- Power 
 power:buttons(gears.table.join(
@@ -74,6 +71,7 @@ power:buttons(gears.table.join(
         	awesome.emit_signal("show_exit_screen")
     end)
 ))
+
 
 -- Music 
 music:buttons(gears.table.join(
@@ -108,11 +106,13 @@ volume:buttons(gears.table.join(
     end)
 ))
 
+
 -- Left/Right click toggle default app monitor
 cpu:buttons(gears.table.join(
         awful.button({ }, 1, apps.process_monitor),
         awful.button({ }, 3, apps.process_monitor_gui)
 ))
+
 
 -- Left/Right click toggle default app monitor
 ram:buttons(
@@ -121,23 +121,27 @@ ram:buttons(
         awful.button({ }, 3, apps.process_monitor_gui)
 ))
 
+
 battery:buttons(gears.table.join(
     awful.button({ }, 1, apps.battery_monitor)
 ))
 
+
+-- Tool
 local adaptive_tooltip = wibox.widget {
     visible = false,
     top_only = true,
     layout = wibox.layout.stack
 }
 
+
 -- Create tooltip for widget 
 local tooltip_counter = 0
 local create_tooltip = function(w)
     local tooltip = wibox.widget {
         font = "Recursive Mono Casual 10",
-        align = "center",
-        valign = "center",
+        mode = "outside",
+        align = "right",
         widget = wibox.widget.textbox
     }
 
@@ -158,6 +162,8 @@ local create_tooltip = function(w)
     return tooltip
 end
 
+
+-- Build tooltip :TODO: 
 local volume_tooltip = create_tooltip(volume_bar)
 awesome.connect_signal("evil::volume", function(value, muted)
     volume_tooltip.markup = "The volume is at <span foreground='" .. beautiful.volume_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
@@ -181,13 +187,15 @@ awesome.connect_signal("evil::battery", function(value)
     battery_tooltip.markup = "Your battery is at <span foreground='" .. beautiful.battery_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
 end)
 
+
+-- Add handle cursor when hovering
 helpers.add_hover_cursor(volume, "hand1")
 helpers.add_hover_cursor(cpu, "hand1")
 helpers.add_hover_cursor(ram, "hand1")
 helpers.add_hover_cursor(battery, "hand1")
 helpers.add_hover_cursor(music, "hand1")
 helpers.add_hover_cursor(power, "hand1")
--- import widgets
+
 local tag_colors_empty = { "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", }
 
 local tag_colors_urgent = {
@@ -335,5 +343,6 @@ bar.create = function(s)
    client.connect_signal("unfocus", change_panel_visibility)
 
 end
+
 
 return bar

@@ -82,19 +82,21 @@ function rules.create(clientkeys, clientbuttons)
 
    -- Browsing
 
-     rule_any = {
+   {
+      rule_any = {
          class = {
-             "Firefox",
+             "firefox",
              "Nightly",
              "qutebrowser"
          },
      },
+     properties = { tag = "2" },
      except_any = {
          role = { "GtkFileChooserDialog" },
          instance = { "Toolkit" },
          type = { "dialog" }
      },
-     properties = { tag = "2" },
+  },
 
       -- Text editor
       {

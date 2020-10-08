@@ -26,9 +26,8 @@ local apps = {}
 -- define default apps
 apps.default = {
    terminal = "kitty",
-   launcher = "rofi -matching fuzzy -show combi",
+   launcher = "rofi -matching fuzzy -show drun",
    editorGui = "subl",
-   lock = "i3lock",
    music = "kitty -o font_size=12 --class music -e ncmpcpp",
    screenshot = "scrot -e 'mv $f ~/Pictures/ 2>/dev/null'",
    filebrowser = "thunar"

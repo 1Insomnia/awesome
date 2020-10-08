@@ -127,7 +127,7 @@ local bar = require("components.bar")
 
 -- Autostart specified apps
 local apps = require("config.apps")
-require("components.dash")
+-- require("components.dash")
 apps.autostart()
 require("evil")
 
@@ -146,7 +146,6 @@ awful.layout.layouts = {
 -- Import tag settings
 local tags = require("config.tags")
 
--- require("components.dash")
 -- Set up each screen (add tags & panels)
 awful.screen.connect_for_each_screen(function(s)
    for i, tag in pairs(tags) do
