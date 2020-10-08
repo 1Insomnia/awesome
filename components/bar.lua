@@ -18,6 +18,7 @@ local task_list = require("widgets.task-list")
 local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
+local battery = require("widgets.battery")()
 
 
 -- Helper function that changes the appearance of progress bars 
@@ -53,12 +54,10 @@ end
 -- Build widgets
 local volume_bar = require("noodle.volume_bar")
 local volume = format_progress_bar(volume_bar)
-local cpu_bar = require("noodle.cpu_bar")
-local cpu = format_progress_bar(cpu_bar)
-local ram_bar = require("noodle.ram_bar")
-local ram = format_progress_bar(ram_bar)
-local battery_bar = require("noodle.battery_bar")
-local battery = format_progress_bar(battery_bar)
+
+local brightness_bar = require("noodle.brightness_bar")
+local brightness = format_progress_bar(brightness_bar)
+-- Buttons widgets
 local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
 
@@ -107,23 +106,22 @@ volume:buttons(gears.table.join(
 ))
 
 
--- Left/Right click toggle default app monitor
-cpu:buttons(gears.table.join(
-        awful.button({ }, 1, apps.process_monitor),
-        awful.button({ }, 3, apps.process_monitor_gui)
-))
-
-
--- Left/Right click toggle default app monitor
-ram:buttons(
+brightness:buttons(
     gears.table.join(
-        awful.button({ }, 1, apps.process_monitor),
-        awful.button({ }, 3, apps.process_monitor_gui)
-))
-
-
-battery:buttons(gears.table.join(
-    awful.button({ }, 1, apps.battery_monitor)
+        -- Left click - Toggle redshift
+        awful.button({ }, 1, apps.night_mode),
+        -- Right click - Reset brightness (Set to max)
+        awful.button({ }, 3, function ()
+            awful.spawn.with_shell("light -S 100")
+        end),
+        -- Scroll up - Increase brightness
+        awful.button({ }, 4, function ()
+            awful.spawn.with_shell("light -A 10")
+        end),
+        -- Scroll down - Decrease brightness
+        awful.button({ }, 5, function ()
+            awful.spawn.with_shell("light -U 10")
+        end)
 ))
 
 
@@ -162,7 +160,6 @@ local create_tooltip = function(w)
     return tooltip
 end
 
-
 -- Build tooltip :TODO: 
 local volume_tooltip = create_tooltip(volume_bar)
 awesome.connect_signal("evil::volume", function(value, muted)
@@ -172,27 +169,8 @@ awesome.connect_signal("evil::volume", function(value, muted)
     end
 end)
 
-local cpu_tooltip = create_tooltip(cpu_bar)
-awesome.connect_signal("evil::cpu", function(value)
-    cpu_tooltip.markup = "You are using <span foreground='" .. beautiful.cpu_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span> of CPU"
-end)
-
-local ram_tooltip = create_tooltip(ram_bar)
-awesome.connect_signal("evil::ram", function(value, _)
-    ram_tooltip.markup = "You are using <span foreground='" .. beautiful.ram_bar_active_color .."'><b>" .. string.format("%.1f", value / 1000) .. "G</b></span> of memory"
-end)
-
-local battery_tooltip = create_tooltip(battery_bar)
-awesome.connect_signal("evil::battery", function(value)
-    battery_tooltip.markup = "Your battery is at <span foreground='" .. beautiful.battery_bar_active_color .."'><b>" .. tostring(value) .. "%</b></span>"
-end)
-
-
 -- Add handle cursor when hovering
 helpers.add_hover_cursor(volume, "hand1")
-helpers.add_hover_cursor(cpu, "hand1")
-helpers.add_hover_cursor(ram, "hand1")
-helpers.add_hover_cursor(battery, "hand1")
 helpers.add_hover_cursor(music, "hand1")
 helpers.add_hover_cursor(power, "hand1")
 
@@ -309,7 +287,6 @@ bar.create = function(s)
       layout = wibox.layout.align.horizontal,
       {
          layout = wibox.layout.fixed.horizontal,
-         require("widgets.launcher")(),
          music,
          task_list.create(s),
       },
@@ -317,8 +294,7 @@ bar.create = function(s)
       {
          layout = wibox.layout.fixed.horizontal,
          wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
-         cpu,
-         ram,
+         brightness,
          volume,
          battery,
          updater,

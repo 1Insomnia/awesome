@@ -3,16 +3,18 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- Set colors
-local active_color = beautiful.brightness_bar_active_color or "#5AA3CC"
-local background_color = beautiful.brightness_bar_background_color or "#222222"
+local active_color = beautiful.blue
+local background_color = beautiful.bg_normal 
 
 local brightness_bar = wibox.widget{
     max_value     = 100,
     value         = 50,
     forced_height = dpi(10),
     margins       = {
-        top = dpi(8),
-        bottom = dpi(8),
+        top = dpi(7),
+        left = dpi(7),
+        right = dpi(7),
+        bottom = dpi(7),
     },
     forced_width  = dpi(200),
     shape         = gears.shape.rounded_bar,
