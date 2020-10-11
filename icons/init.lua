@@ -69,6 +69,7 @@ local icon_names = {
     "submenu",
     "up",
     "down",
+    "brightness",
     -- Weather icons
     "cloud",
     "dcloud",
@@ -86,7 +87,6 @@ local icon_names = {
     "reboot",
     "suspend",
     "lock",
-    "brightness",
 }
 
 -- Path to icons

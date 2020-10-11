@@ -19,12 +19,6 @@ local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
 local battery = require("widgets.battery")()
-local layoutbox = require("widgets.layout-box")
-
-local volume_icon = wibox.widget.imagebox(icons.volume)
-volume_icon.resize = true
-volume_icon.forced_width = icon_size
-volume_icon.forced_height = icon_size
 
 -- Helper function that changes the appearance of progress bars 
 local function format_progress_bar(bar)
@@ -71,29 +65,17 @@ local volume_bar = require("noodle.volume_bar")
 local volume = format_progress_bar(volume_bar)
 
 -- Buttons widgets
-local dashboard = create_button(icons.awesome_menu)
+local menu = create_button(icons.awesome_menu)
 local search = create_button(icons.search)
 local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
 
-
-local volume_box = create_box(volume_icon, volume)
-
 -- Handling Buttons
 -- Power 
-power:buttons(gears.table.join(
-    -- Left click - Mute / Unmute
-    awful.button({ }, 1, function () 
-        	awesome.emit_signal("show_exit_screen")
-    end)
-))
 
-dashboard:buttons(gears.table.join(
+menu:buttons(gears.table.join(
     -- Left click - Mute / Unmute
     awful.button({ }, 1, function () 
-        dashboard_show()	
-    end),
-    awful.button({ }, 3, function () 
         sidebar_show()	
     end)
 ))
@@ -117,24 +99,6 @@ music:buttons(gears.table.join(
     end),
     awful.button({ }, 5, function () 
         awful.spawn.with_shell("mpc volume -5")
-    end)
-))
-
-
--- Button handling for bar widgets
-volume_box:buttons(gears.table.join(
-    -- Left click - Mute / Unmute
-    awful.button({ }, 1, function ()
-        helpers.volume_control(0)
-    end),
-    -- -- Right click - Run or raise pavucontrol
-    awful.button({ }, 3, apps.volume),
-    -- Scroll - Increase / Decrease volume
-    awful.button({ }, 4, function () 
-        helpers.volume_control(5)
-    end),
-    awful.button({ }, 5, function () 
-        helpers.volume_control(-5)
     end)
 ))
 
@@ -256,20 +220,19 @@ bar.create = function(s)
       layout = wibox.layout.align.horizontal,
       {
          layout = wibox.layout.fixed.horizontal,
-         dashboard,
+         menu,
          search,
-         music,
          task_list.create(s),
       },
       calendar,
       {
          layout = wibox.layout.fixed.horizontal,
          wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
-         volume_box,
-         battery,
+         music,
+         volume,
          updater,
+         battery,
          network,
-         layoutbox,
          power
       }
    }

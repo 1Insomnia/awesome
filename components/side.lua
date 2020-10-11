@@ -43,7 +43,7 @@ battery_icon.forced_height = icon_size
 local function format_progress_bar(bar)
     -- Since we will rotate the bars 90 degrees, width and height are reversed
     bar.forced_width = dpi(120)
-    bar.forced_height = dpi(50)
+    bar.forced_height = dpi(42)
     bar.shape = gears.shape.rectangle
     bar.bar_shape = gears.shape.rectangle
     local w = wibox.widget{
@@ -62,6 +62,23 @@ local create_box = function(icon, bar)
         layout = wibox.layout.fixed.horizontal
     }
     return box
+end
+
+local create_button = function (icon)
+    local widget = wibox.widget {
+        id = "icon",
+        image = icon,
+        resize = true,
+        forced_height = icon_size - 10,
+        forced_width = icon_size - 10, 
+        widget = wibox.widget.imagebox,
+    }
+    local container = wibox.widget {
+        widget,
+        margins = dpi(5),
+        widget = wibox.container.margin
+    }
+    return container
 end
 
 local battery_bar = require("noodle.battery_bar")
@@ -84,7 +101,7 @@ local cpu_bar = require("noodle.cpu_bar")
 local cpu = format_progress_bar(cpu_bar)
 local cpu_box = create_box(cpu_icon, cpu)
 
-cpu:buttons(
+cpu_box:buttons(
     gears.table.join(
         awful.button({ }, 1, apps.process_monitor),
         awful.button({ }, 3, apps.process_monitor_gui)
@@ -94,7 +111,7 @@ local ram_bar = require("noodle.ram_bar")
 local ram = format_progress_bar(ram_bar)
 local ram_box = create_box(ram_icon, ram)
 
-ram:buttons(
+ram_box:buttons(
     gears.table.join(
         awful.button({ }, 1, apps.process_monitor),
         awful.button({ }, 3, apps.process_monitor_gui)
@@ -104,7 +121,7 @@ local brightness_bar = require("noodle.brightness_bar")
 local brightness = format_progress_bar(brightness_bar)
 local brightness_box = create_box(brightness_icon, brightness)
 
-brightness:buttons(
+brightness_box:buttons(
     gears.table.join(
         -- Left click - Toggle redshift
         awful.button({ }, 1, apps.night_mode),
@@ -123,6 +140,34 @@ brightness:buttons(
 ))
 
 
+local volume_bar = require("noodle.volume_bar")
+local volume = format_progress_bar(volume_bar)
+local volume_box = create_box(volume_icon, volume_bar)
+
+volume_box:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        helpers.volume_control(0)
+    end),
+    -- Right click - Run or raise pavucontrol
+    awful.button({ }, 3, apps.volume),
+    -- Scroll - Increase / Decrease volume
+    awful.button({ }, 4, function () 
+        helpers.volume_control(2)
+    end),
+    awful.button({ }, 5, function () 
+        helpers.volume_control(-2)
+    end)
+))
+
+local close = create_button(icons.close)
+close:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function () 
+        sidebar_hide()
+    end)
+))
+
 local hours = wibox.widget.textclock("%H")
 local minutes = wibox.widget.textclock("%M")
 
@@ -138,7 +183,7 @@ end
 
 local time = {
     {
-        font = "biotif extra bold 44",
+        font = "Rec Mono Casual bold 44",
         align = "right",
         valign = "top",
         widget = hours
@@ -286,25 +331,100 @@ search:buttons(gears.table.join(
     end)
 ))
 
-local volume_bar = require("noodle.volume_bar")
-local volume = format_progress_bar(volume_bar)
-local volume_box = create_box(volume_icon, volume_bar)
+-- File system bookmarks
+local function create_bookmark(name, path)
+    local original_color = x.color1
+    local hover_color = x.color8
 
-volume:buttons(gears.table.join(
-    -- Left click - Mute / Unmute
-    awful.button({ }, 1, function ()
-        helpers.volume_control(0)
-    end),
-    -- Right click - Run or raise pavucontrol
-    awful.button({ }, 3, apps.volume),
-    -- Scroll - Increase / Decrease volume
-    awful.button({ }, 4, function () 
-        helpers.volume_control(2)
-    end),
-    awful.button({ }, 5, function () 
-        helpers.volume_control(-2)
+    local bookmark = wibox.widget.textbox()
+    bookmark.font = "sans bold 16"
+    -- bookmark.text = wibox.widget.textbox(name:sub(1,1):upper()..name:sub(2))
+    bookmark.markup = helpers.colorize_text(name, original_color)
+    bookmark.align = "center"
+    bookmark.valign = "center"
+
+    -- Buttons
+    bookmark:buttons(gears.table.join(
+        awful.button({ }, 1, function ()
+            awful.spawn.with_shell(user.file_manager.." "..path)
+            dashboard_hide()
+        end),
+        awful.button({ }, 3, function ()
+            awful.spawn.with_shell(user.terminal.." -e 'ranger' "..path)
+            dashboard_hide()
+        end)
+    ))
+
+    -- Hover effect
+    bookmark:connect_signal("mouse::enter", function ()
+        bookmark.markup = helpers.colorize_text(name, hover_color)
     end)
-))
+    bookmark:connect_signal("mouse::leave", function ()
+        bookmark.markup = helpers.colorize_text(name, original_color)
+    end)
+
+    helpers.add_hover_cursor(bookmark, "hand1")
+
+    return bookmark
+end
+
+local bookmarks = wibox.widget {
+    create_bookmark("HOME", os.getenv("HOME")),
+    create_bookmark("DOWNLOADS", user.dirs.downloads),
+    create_bookmark("MUSIC", user.dirs.music),
+    create_bookmark("TMP", user.dirs.tmp),
+    create_bookmark("WALLPAPERS", user.dirs.walls),
+    spacing = dpi(10),
+    layout = wibox.layout.fixed.vertical
+}
+
+-- URLs
+local function create_url(name, path)
+    local original_color = x.color4
+    local hover_color = x.color12
+
+    local url = wibox.widget.textbox()
+    url.font = "sans bold 16"
+    -- url.text = wibox.widget.textbox(name:sub(1,1):upper()..name:sub(2))
+    url.markup = helpers.colorize_text(name, original_color)
+    url.align = "center"
+    url.valign = "center"
+
+    -- Buttons
+    url:buttons(
+        gears.table.join(
+            awful.button({ }, 1, function ()
+                awful.spawn(user.browser.." "..path)
+                dashboard_hide()
+            end),
+            awful.button({ }, 3, function ()
+                awful.spawn(user.browser.." -new-window "..path)
+                dashboard_hide()
+            end)
+    ))
+
+    -- Hover effect
+    url:connect_signal("mouse::enter", function ()
+        url.markup = helpers.colorize_text(name, hover_color)
+    end)
+    url:connect_signal("mouse::leave", function ()
+        url.markup = helpers.colorize_text(name, original_color)
+    end)
+
+    helpers.add_hover_cursor(url, "hand1")
+
+    return url
+end
+
+local urls = wibox.widget {
+    create_url("UNIXPORN", "reddit.com/r/unixporn"),
+    create_url("FRANCE", "reddit.com/r/france"),
+    create_url("REDDIT", "reddit.com"),
+    create_url("GITHUB", "github.com/r0b0tx"),
+    spacing = dpi(10),
+    layout = wibox.layout.fixed.vertical
+}
+
 
 -- Create tooltip widget
 -- It should change depending on what the user is hovering over
@@ -385,7 +505,7 @@ sidebar = wibox({visible = false, ontop = true, type = "dock", screen = 1 and 2}
 sidebar.bg = beautiful.bg_normal -- For anti aliasing
 sidebar.fg = beautiful.sidebar_fg or beautiful.wibar_fg or "#FFFFFF"
 sidebar.opacity = beautiful.sidebar_opacity or 1
-sidebar.height = screen.primary.geometry.height /2
+sidebar.height = screen.primary.geometry.height 
 sidebar.width = beautiful.sidebar_width or dpi(300)
 sidebar.y = beautiful.sidebar_y or 0
 local radius = beautiful.sidebar_border_radius or 0
@@ -394,7 +514,7 @@ if beautiful.sidebar_position == "right" then
 else
     awful.placement.top_left(sidebar)
 end
-awful.placement.maximize_vertically(sidebar, { honor_workarea = true, margins = { bottom = dpi(32)} })
+awful.placement.maximize_vertically(sidebar, { honor_workarea = true, margins = { top = dpi(1) ,bottom = dpi(33)} })
 
 sidebar:buttons(gears.table.join(
     -- Middle click - Hide sidebar
@@ -434,7 +554,7 @@ sidebar:setup {
     {
         { ----------- TOP GROUP -----------
             {
-                helpers.vertical_pad(dpi(30)),
+                helpers.vertical_pad(dpi(45)),
                 {
                     nil,
                     {
@@ -445,23 +565,15 @@ sidebar:setup {
                     expand = "none",
                     layout = wibox.layout.align.horizontal
                 },
-                helpers.vertical_pad(dpi(20)),
+                helpers.vertical_pad(dpi(15)),
                 day_of_the_week,
-                helpers.vertical_pad(dpi(25)),
-                {
-                    nil,
-                    cute_battery_face,
-                    expand = "none",
-                    layout = wibox.layout.align.horizontal,
-                },
-                helpers.vertical_pad(dpi(30)),
                 layout = wibox.layout.fixed.vertical
             },
             layout = wibox.layout.fixed.vertical
         },
         { ----------- MIDDLE GROUP -----------
             {
-                helpers.vertical_pad(dpi(30)),
+                helpers.vertical_pad(dpi(15)),
                 nil,
                 {
                     {
@@ -485,14 +597,23 @@ sidebar:setup {
                         battery_box,
                         brightness_box,
                         volume_box,
+                        adaptive_tooltip,
                         spacing = dpi(20),
                         layout = wibox.layout.fixed.vertical
                         -- layout = wibox.layout.fixed.horizontal
                     },
                     expand = "none",
-                    layout = wibox.layout.align.horizontal
+                    layout = wibox.layout.align.horizontal,
+                    helpers.vertical_pad(dpi(15)),
+                    {
+                        nil,
+                        adaptive_tooltip,
+                        expand = "none",
+                        layout = wibox.layout.fixed.horizontal,
+                    },
+
                 },
-                helpers.vertical_pad(dpi(25)),
+                helpers.vertical_pad(dpi(30)),
                 layout = wibox.layout.fixed.vertical
             },
             shape = helpers.prrect(beautiful.sidebar_border_radius, false, true, false, false),
@@ -504,22 +625,25 @@ sidebar:setup {
                 {
                     {
                         nil,
-                        adaptive_tooltip,
+                        bookmarks,
+                        helpers.vertical_pad(dpi(15)),
+                        urls,
+                        spacing = dpi(20),
                         expand = "none",
-                        layout = wibox.layout.align.horizontal,
+                        layout = wibox.layout.fixed.vertical,
                     },
                     helpers.vertical_pad(dpi(30)),
                     {
                         nil,
-                        search,
+                        close,
                         expand = "none",
                         layout = wibox.layout.align.horizontal,
                     },
-                    layout = wibox.layout.fixed.vertical
+                    layout = wibox.layout.align.vertical
                 },
                 left = dpi(20),
                 right = dpi(20),
-                bottom = dpi(30),
+                bottom = dpi(45),
                 widget = wibox.container.margin
             },
             bg = x.color0.."66",

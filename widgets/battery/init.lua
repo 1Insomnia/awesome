@@ -39,7 +39,6 @@ local return_button = function()
 	local battery_widget = wibox.widget {
 		layout = wibox.layout.fixed.horizontal,
 		spacing = dpi(0),
-		battery_percentage_text,
 		battery_imagebox
 	}
 
