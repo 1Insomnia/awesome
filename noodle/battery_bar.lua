@@ -3,18 +3,16 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- Set colors
-local active_color = beautiful.blue 
-local background_color = beautiful.bg_dim
+local active_color = x.color4 
+local background_color = beautiful.bg_normal
 
 local battery_bar = wibox.widget{
   max_value     = 100,
   value         = 50,
     forced_height = dpi(30),
     margins       = {
-      top = dpi(7),
-      left = dpi(7),
-      right = dpi(7),
-      bottom = dpi(7),
+      top = dpi(10),
+      bottom = dpi(10),
     },
     forced_width  = dpi(200),
   shape         = gears.shape.rounded_bar,

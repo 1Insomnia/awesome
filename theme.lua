@@ -20,9 +20,9 @@ local theme = {}
 -- ===================================================================
 -- Theme Variables
 -- ===================================================================
--- gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() ..
-                          -- "wallpaper/bg.png", nil, {x = 0, y = 597})
-gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() .. "wallpaper/onedark_triangle.png", nil)
+gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() ..
+                          "wallpaper/bg.png", nil, {x = 0, y = 597})
+-- gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() .. "wallpaper/onedark_triangle.png", nil)
 -- Font
 theme.font = "Rec Mono Casual 9"
 theme.title_font = "Rec Mono Casual 10"
@@ -74,7 +74,7 @@ theme.screen_margin = dpi(12)
 theme.gap_single_client = true
 
 -- Window Borders
-theme.border_width = dpi(10)
+theme.border_width = dpi(5)
 theme.border_normal = theme.bg_normal
 theme.border_focus = theme.red 
 theme.border_marked = theme.red
@@ -157,9 +157,9 @@ theme.brightness_bar_background_color = x.color0
 
 
 -- You can use your own layout icons like this:
-theme.layout_tile = "~/.config/awesome/icons/layouts/view-quilt.png"
-theme.layout_floating = "~/.config/awesome/icons/layouts/view-float.png"
-theme.layout_max = "~/.config/awesome/icons/layouts/arrow-expand-all.png"
+theme.layout_tile = "~/.config/awesome/icons/layout/tile.png"
+theme.layout_floating = "~/.config/awesome/icons/layout/float.png"
+theme.layout_max = "~/.config/awesome/icons/layout/max.png"
 
 theme.icon_theme = "~/.local/share/Tela-dark"
 

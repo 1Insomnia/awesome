@@ -3,16 +3,16 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- Set colors
-local active_color = beautiful.temperature_bar_active_color or "#5AA3CC"
-local background_color = beautiful.temperature_bar_background_color or "#222222"
+local active_color = x.color3
+local background_color = beautiful.bg_normal
 
 local temperature_bar = wibox.widget{
   max_value     = 100,
   value         = 50,
   forced_height = dpi(10),
   margins       = {
-    top = dpi(8),
-    bottom = dpi(8),
+    top = dpi(10),
+    bottom = dpi(10),
   },
   forced_width  = dpi(200),
   shape         = gears.shape.rounded_bar,

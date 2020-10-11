@@ -19,12 +19,7 @@ local calendar = require("widgets.calendar")
 local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
 local battery = require("widgets.battery")()
-
-
-local brightness_icon = wibox.widget.imagebox(icons.brightness)
-brightness_icon.resize = true
-brightness_icon.forced_width = icon_size
-brightness_icon.forced_height = icon_size
+local layoutbox = require("widgets.layout-box")
 
 local volume_icon = wibox.widget.imagebox(icons.volume)
 volume_icon.resize = true
@@ -75,8 +70,6 @@ end
 local volume_bar = require("noodle.volume_bar")
 local volume = format_progress_bar(volume_bar)
 
-local brightness_bar = require("noodle.brightness_bar")
-local brightness = format_progress_bar(brightness_bar)
 -- Buttons widgets
 local dashboard = create_button(icons.awesome_menu)
 local search = create_button(icons.search)
@@ -84,8 +77,7 @@ local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
 
 
-local brightness_box = create_box(brightness_icon, brightness_bar)
-local volume_box = create_box(volume_icon, volume_bar)
+local volume_box = create_box(volume_icon, volume)
 
 -- Handling Buttons
 -- Power 
@@ -100,6 +92,9 @@ dashboard:buttons(gears.table.join(
     -- Left click - Mute / Unmute
     awful.button({ }, 1, function () 
         dashboard_show()	
+    end),
+    awful.button({ }, 3, function () 
+        sidebar_show()	
     end)
 ))
 
@@ -142,26 +137,6 @@ volume_box:buttons(gears.table.join(
         helpers.volume_control(-5)
     end)
 ))
-
-
-brightness_box:buttons(
-    gears.table.join(
-        -- Left click - Toggle redshift
-        awful.button({ }, 1, apps.night_mode),
-        -- Right click - Reset brightness (Set to max)
-        awful.button({ }, 3, function ()
-            awful.spawn.with_shell("light -S 100")
-        end),
-        -- Scroll up - Increase brightness
-        awful.button({ }, 4, function ()
-            awful.spawn.with_shell("light -A 10")
-        end),
-        -- Scroll down - Decrease brightness
-        awful.button({ }, 5, function ()
-            awful.spawn.with_shell("light -U 10")
-        end)
-))
-
 
 -- Add handle cursor when hovering
 helpers.add_hover_cursor(volume, "hand1")
@@ -290,12 +265,12 @@ bar.create = function(s)
       {
          layout = wibox.layout.fixed.horizontal,
          wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
-         brightness_box,
          volume_box,
          battery,
          updater,
          network,
-         power,
+         layoutbox,
+         power
       }
    }
 

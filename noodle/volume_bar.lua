@@ -2,8 +2,7 @@ local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
--- Set colors
-local active_color = beautiful.yellow
+local active_color = x.color6
 local muted_color = beautiful.brightBlack
 local active_background_color = beautiful.bg_normal
 local muted_background_color = beautiful.brightBlack
@@ -13,10 +12,8 @@ local volume_bar = wibox.widget{
     value         = 50,
     forced_height = dpi(10),
     margins       = {
-        top = dpi(7),
-        left = dpi(7),
-        right = dpi(7),
-        bottom = dpi(7),
+        top = dpi(10),
+        bottom = dpi(10),
     },
     forced_width  = dpi(200),
     shape         = gears.shape.rounded_bar,
