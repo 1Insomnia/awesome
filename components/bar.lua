@@ -12,15 +12,30 @@ local apps = require("config.apps")
 local keys = require("config.keys")
 local icons = require('icons')
 
-
 -- Import widgets
 local task_list = require("widgets.task-list")
 local calendar = require("widgets.calendar")
-local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
-local battery = require("widgets.battery")()
 
--- Helper function that changes the appearance of progress bars 
+local icon_size = dpi(24)
+
+local volume_icon = wibox.widget.imagebox(icons.volume)
+volume_icon.resize = true
+volume_icon.forced_width = icon_size
+volume_icon.forced_height = icon_size
+
+local brightness_icon = wibox.widget.imagebox(icons.brightness)
+brightness_icon.resize = true
+brightness_icon.forced_width = icon_size
+brightness_icon.forced_height = icon_size
+
+local battery_icon = wibox.widget.imagebox(icons.battery)
+battery_icon.resize = true
+battery_icon.forced_width = icon_size
+battery_icon.forced_height = icon_size
+
+
+-- Helper function that changes the appearance of progress bars
 local function format_progress_bar(bar)
     bar.forced_width = dpi(100)
     bar.forced_height = dpi(30)
@@ -29,7 +44,6 @@ local function format_progress_bar(bar)
     local w = wibox.widget{
         bar,
         -- direction = 'east',
-        margin = dpi(15),
         layout = wibox.layout.stack,
     }
     return w
@@ -52,52 +66,106 @@ end
 -- Helpers function to create a box with icon and bar
 local create_box = function(icon, bar)
     local box = wibox.widget {
-        icon, 
+        icon,
         bar,
-        spacing = dpi(5),
+        margins = dpi(5),
         layout = wibox.layout.fixed.horizontal
     }
     return box
 end
 
--- Build widgets
+
+local battery_bar = require("noodle.battery_bar")
+local battery = format_progress_bar(battery_bar)
+battery:buttons(
+    gears.table.join(
+        awful.button({ }, 1, apps.battery_monitor)
+))
+
+local brightness_bar = require("noodle.brightness_bar")
+local brightness = format_progress_bar(brightness_bar)
+
+brightness:buttons(
+    gears.table.join(
+        -- Left click - Toggle redshift
+        awful.button({ }, 1, apps.night_mode),
+        -- Right click - Reset brightness (Set to max)
+        awful.button({ }, 3, function ()
+            awful.spawn.with_shell("light -S 100")
+        end),
+        -- Scroll up - Increase brightness
+        awful.button({ }, 4, function ()
+            awful.spawn.with_shell("light -A 10")
+        end),
+        -- Scroll down - Decrease brightness
+        awful.button({ }, 5, function ()
+            awful.spawn.with_shell("light -U 10")
+        end)
+))
+
+
 local volume_bar = require("noodle.volume_bar")
 local volume = format_progress_bar(volume_bar)
+
+volume:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        helpers.volume_control(0)
+    end),
+    -- Right click - Run or raise pavucontrol
+    awful.button({ }, 3, apps.volume),
+    -- Scroll - Increase / Decrease volume
+    awful.button({ }, 4, function ()
+        helpers.volume_control(2)
+    end),
+    awful.button({ }, 5, function ()
+        helpers.volume_control(-2)
+    end)
+))
 
 -- Buttons widgets
 local menu = create_button(icons.awesome_menu)
 local search = create_button(icons.search)
 local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
+local night = create_button(icons.redshift)
 
 -- Handling Buttons
--- Power 
-
+night:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        awful.spawn.with_shell("redshift")
+    end),
+    awful.button({ }, 1, function ()
+        awful.spawn.with_shell("pkill redshift")
+    end)
+))
+-- Power
 menu:buttons(gears.table.join(
     -- Left click - Mute / Unmute
-    awful.button({ }, 1, function () 
-        sidebar_show()	
+    awful.button({ }, 1, function ()
+        dashboard_show()
     end)
 ))
 
 search:buttons(gears.table.join(
     -- Left click - Mute / Unmute
-    awful.button({ }, 1, function () 
-        awful.spawn.with_shell("rofi fuzzy -show combi")	
+    awful.button({ }, 1, function ()
+        awful.spawn.with_shell("rofi fuzzy -show combi")
     end)
 ))
 
--- Music 
+-- Music
 music:buttons(gears.table.join(
     -- Left click - Mute / Unmute
     awful.button({ }, 1, apps.music),
     -- -- Right click - Run or raise pavucontrol
     awful.button({ }, 3, apps.music),
     -- Scroll - Increase / Decrease volume
-    awful.button({ }, 4, function () 
+    awful.button({ }, 4, function ()
         awful.spawn.with_shell("mpc volume +5")
     end),
-    awful.button({ }, 5, function () 
+    awful.button({ }, 5, function ()
         awful.spawn.with_shell("mpc volume -5")
     end)
 ))
@@ -222,17 +290,22 @@ bar.create = function(s)
          layout = wibox.layout.fixed.horizontal,
          menu,
          search,
+         night,
          task_list.create(s),
       },
-      calendar,
       {
          layout = wibox.layout.fixed.horizontal,
+         calendar,
+      },
+      {
+         layout = wibox.layout.fixed.horizontal,
+         spacing = dpi(10),
          wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
-         music,
          volume,
-         updater,
+         brightness,
          battery,
-         network,
+         music,
+         updater,
          power
       }
    }

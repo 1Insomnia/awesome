@@ -24,47 +24,47 @@ gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() ..
                           "wallpaper/bg.png", nil, {x = 0, y = 597})
 -- gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() .. "wallpaper/onedark_triangle.png", nil)
 -- Font
-theme.font = "Rec Mono Casual 9"
-theme.title_font = "Rec Mono Casual 10"
+theme.font = "Input Mono Narrow 9"
+theme.title_font = "Input Mono Narrow 10"
 theme.title_fg = "#FFF"
 
 -- Background
-theme.bg_normal = "#1e2127"
-theme.bg_dim = "#5c6370"
+theme.bg_normal = "#1a1b26"
+theme.bg_dim = "#1a1b26"
 theme.bg_dark = "#000000"
 theme.bg_focus = "#151821"
-theme.bg_urgent = "#ed8274"
+theme.bg_urgent = "#ff3e3e"
 theme.bg_minimize = "#444444"
 theme.bg_systray = theme.bg_normal
 theme.bg_bar = "#20262C"
 theme.hover = "#00000000"
 
 -- Foreground
-theme.fg_normal = "#ffffff"
+theme.fg_normal = "#a9b1d6"
 theme.fg_focus = "#e4e4e4"
 theme.fg_urgent = "#ffffff"
 theme.fg_minimize = "#ffffff"
 
 -- 16 Colors
 -- Normal
-theme.black   = "#1e2127"
-theme.red     = "#e06c75" 
-theme.green   = "#98c379" 
-theme.yellow  = "#d19a66" 
-theme.blue    = "#61afef" 
-theme.magenta = "#c678dd"
-theme.cyan    = "#56b6c2"
-theme.white   = "#828791" 
+theme.black   = "#32344a"
+theme.red     = "#f7768e" 
+theme.green   = "#9ece6a" 
+theme.yellow  = "#e0af68" 
+theme.blue    = "#7aa2f7" 
+theme.magenta = "#ad8ee6"
+theme.cyan    = "#449dab"
+theme.white   = "#787c99" 
 
 -- Bright
-theme.brightBlack   = "#5c6370"
-theme.brightRed     = "#e06c75"
-theme.brightGreen   = "#98c379"
-theme.brightYellow  = "#d19a66"
-theme.brightBlue    = "#61afef"
-theme.brightMagenta = "#c678dd"
-theme.brightCyan    = "#56b6c2"
-theme.brightWhite   = "#e6efff"
+theme.brightBlack   = "#444b6a"
+theme.brightRed     = "#ff7a93"
+theme.brightGreen   = "#b9f27c"
+theme.brightYellow  = "#ff9e64"
+theme.brightBlue    = "#7da6ff"
+theme.brightMagenta = "#bb9af7"
+theme.brightCyan    = "#0db9d7"
+theme.brightWhite   = "#acb0d0"
 
 -- Window Gap Distance
 theme.useless_gap = dpi(10)

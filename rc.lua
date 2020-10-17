@@ -129,7 +129,6 @@ local bar = require("components.bar")
 -- Autostart specified apps
 local apps = require("config.apps")
 require("components.dash")
-require("components.side")
 apps.autostart()
 require("evil")
 

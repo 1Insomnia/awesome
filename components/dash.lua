@@ -22,8 +22,8 @@ local screen_height = awful.screen.focused().geometry.height
 dashboard = wibox({visible = false, ontop = true, type = "dock", screen = screen.primary})
 awful.placement.maximize(dashboard)
 
-dashboard.bg = beautiful.dashboard_bg or beautiful.exit_screen_bg or beautiful.wibar_bg or "#111111"
-dashboard.fg = beautiful.dashboard_fg or beautiful.exit_screen_fg or beautiful.wibar_fg or "#FEFEFE"
+dashboard.bg = beautiful.bg_normal
+dashboard.fg = beautiful.fg_normal
 
 -- Add dashboard or mask to each screen
 awful.screen.connect_for_each_screen(function(s)
@@ -142,7 +142,7 @@ local hours = wibox.widget.textclock("%H  ")
 hours.font = "sans bold 30"
 hours.align = "center"
 hours.valign = "center"
-local minutes = wibox.widget.textclock("<span foreground='" .. x.color14 .."'>  %M</span>")
+local minutes = wibox.widget.textclock("<span foreground='" .. x.color12 .."'>  %M</span>")
 minutes.font = "sans 30"
 minutes.align = "center"
 minutes.valign = "center"

@@ -38,7 +38,7 @@ apps.music = function ()
     helpers.scratchpad({instance = "music"}, user.music_client)
 end
 
--- Lauch htop 
+-- Lauch htop
 apps.process_monitor = function ()
     helpers.run_or_raise({instance = 'htop'}, false, user.terminal.." --class htop -e htop", { switchtotag = true })
 end
