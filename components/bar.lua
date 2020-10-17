@@ -12,27 +12,11 @@ local apps = require("config.apps")
 local keys = require("config.keys")
 local icons = require('icons')
 
--- Import widgets
+
+-- Import bottom bars widgets
 local task_list = require("widgets.task-list")
 local calendar = require("widgets.calendar")
 local updater = require("widgets.package-updater")()
-
-local icon_size = dpi(24)
-
-local volume_icon = wibox.widget.imagebox(icons.volume)
-volume_icon.resize = true
-volume_icon.forced_width = icon_size
-volume_icon.forced_height = icon_size
-
-local brightness_icon = wibox.widget.imagebox(icons.brightness)
-brightness_icon.resize = true
-brightness_icon.forced_width = icon_size
-brightness_icon.forced_height = icon_size
-
-local battery_icon = wibox.widget.imagebox(icons.battery)
-battery_icon.resize = true
-battery_icon.forced_width = icon_size
-battery_icon.forced_height = icon_size
 
 
 -- Helper function that changes the appearance of progress bars
@@ -43,11 +27,13 @@ local function format_progress_bar(bar)
     bar.bar_shape = gears.shape.rectangle
     local w = wibox.widget{
         bar,
+        margins = dpi(15),
         -- direction = 'east',
         layout = wibox.layout.stack,
     }
     return w
 end
+
 
 local create_button = function (icon)
     local widget = wibox.widget {
@@ -63,18 +49,15 @@ local create_button = function (icon)
     return container
 end
 
--- Helpers function to create a box with icon and bar
-local create_box = function(icon, bar)
-    local box = wibox.widget {
-        icon,
-        bar,
-        margins = dpi(5),
-        layout = wibox.layout.fixed.horizontal
-    }
-    return box
+
+-- Helpers just to concatenate into an url
+local create_url = function(name)
+    url = "https://".."/"..name
+    return url
 end
 
 
+-- Create battery bar
 local battery_bar = require("noodle.battery_bar")
 local battery = format_progress_bar(battery_bar)
 battery:buttons(
@@ -82,28 +65,31 @@ battery:buttons(
         awful.button({ }, 1, apps.battery_monitor)
 ))
 
+
+-- Create brightness bar. 
 local brightness_bar = require("noodle.brightness_bar")
 local brightness = format_progress_bar(brightness_bar)
 
 brightness:buttons(
     gears.table.join(
-        -- Left click - Toggle redshift
-        awful.button({ }, 1, apps.night_mode),
         -- Right click - Reset brightness (Set to max)
+        awful.button({ }, 1, apps.night_mode),
+        -- Right click - Reset brightness (Set to 10)
         awful.button({ }, 3, function ()
-            awful.spawn.with_shell("light -S 100")
+            awful.spawn.with_shell("light -S 90")
         end),
-        -- Scroll up - Increase brightness
+        -- Scroll up - Increase brightness by 10%
         awful.button({ }, 4, function ()
             awful.spawn.with_shell("light -A 10")
         end),
-        -- Scroll down - Decrease brightness
+        -- Scroll down - Decrease brightness by 10%
         awful.button({ }, 5, function ()
             awful.spawn.with_shell("light -U 10")
         end)
 ))
 
 
+-- Create volume bar
 local volume_bar = require("noodle.volume_bar")
 local volume = format_progress_bar(volume_bar)
 
@@ -114,7 +100,7 @@ volume:buttons(gears.table.join(
     end),
     -- Right click - Run or raise pavucontrol
     awful.button({ }, 3, apps.volume),
-    -- Scroll - Increase / Decrease volume
+    -- Scroll - Increase / Decrease volume by 2
     awful.button({ }, 4, function ()
         helpers.volume_control(2)
     end),
@@ -129,18 +115,65 @@ local search = create_button(icons.search)
 local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
 local night = create_button(icons.redshift)
+local reddit = create_button(icons.reddit)
+local editor = create_button(icons.editor)
+local files = create_button(icons.files)
+local firefox = create_button(icons.firefox)
 
+
+-- Build buttons togglers
+firefox:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        awful.spawn(apps.default.web_browser)
+    end)
+))
+
+files:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        awful.spawn(apps.default.filebrowser)
+    end)
+))
+
+
+editor:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        awful.spawn(apps.default.editorGui)
+    end),
+    awful.button({ }, 3, function ()
+        awful.spawn.with_shell("code-insiders")
+    end)
+))
+
+
+local reddit_url = create_url("reddit.com")
+reddit:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        awful.spawn(user.browser.." "..reddit_url)
+    end)
+))
+
+
+power:buttons(gears.table.join(
+    -- Left click - Mute / Unmute
+    awful.button({ }, 1, function ()
+        awesome.emit_signal("show_exit_screen")
+    end)
+))
 -- Handling Buttons
 night:buttons(gears.table.join(
     -- Left click - Mute / Unmute
     awful.button({ }, 1, function ()
         awful.spawn.with_shell("redshift")
     end),
-    awful.button({ }, 1, function ()
+    awful.button({ }, 3, function ()
         awful.spawn.with_shell("pkill redshift")
     end)
 ))
--- Power
+-- Menu
 menu:buttons(gears.table.join(
     -- Left click - Mute / Unmute
     awful.button({ }, 1, function ()
@@ -174,6 +207,11 @@ music:buttons(gears.table.join(
 helpers.add_hover_cursor(volume, "hand1")
 helpers.add_hover_cursor(music, "hand1")
 helpers.add_hover_cursor(power, "hand1")
+helpers.add_hover_cursor(menu, "hand1")
+helpers.add_hover_cursor(editor, "hand1")
+helpers.add_hover_cursor(firefox, "hand1")
+helpers.add_hover_cursor(reddit, "hand1")
+helpers.add_hover_cursor(files, "hand1")
 
 local tag_colors_empty = { "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", }
 
@@ -275,38 +313,48 @@ end)
 local bar = {}
 
 bar.create = function(s)
-   local panel = awful.wibar({
-      screen = s,
-      position = "bottom",
-      ontop = true,
-      height = dpi(32),
-      width = s.geometry.width,
+    local panel = awful.wibar({
+        screen = s,
+        position = "bottom",
+        ontop = true,
+        height = dpi(32),
+        width = s.geometry.width,
    })
 
    panel:setup {
       expand = "none",
       layout = wibox.layout.align.horizontal,
       {
-         layout = wibox.layout.fixed.horizontal,
-         menu,
-         search,
-         night,
-         task_list.create(s),
+            layout = wibox.layout.fixed.horizontal,
+            menu,
+            -- Apps launcher
+            editor,
+            files,
+            reddit,
+            firefox,
+            -- Build tasklist
+            task_list.create(s),
       },
       {
-         layout = wibox.layout.fixed.horizontal,
-         calendar,
+            layout = wibox.layout.fixed.horizontal,
+            calendar,
       },
       {
-         layout = wibox.layout.fixed.horizontal,
-         spacing = dpi(10),
-         wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
-         volume,
-         brightness,
-         battery,
-         music,
-         updater,
-         power
+            layout = wibox.layout.fixed.horizontal,
+            wibox.layout.margin(wibox.widget.systray(), 0, 0, 3, 3),
+              -- Bars
+            {
+                volume,
+                brightness,
+                battery,
+                spacing = dpi(10),
+                layout = wibox.layout.fixed.horizontal,
+            },
+            music,
+            night,
+             -- External widgets
+            updater,
+            power
       }
    }
 

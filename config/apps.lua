@@ -30,7 +30,8 @@ apps.default = {
    editorGui = "subl",
    music = "kitty -o font_size=12 --class music -e ncmpcpp",
    screenshot = "scrot -e 'mv $f ~/Pictures/ 2>/dev/null'",
-   filebrowser = "thunar"
+   filebrowser = "thunar",
+   web_browser = "firefox"
 }
 
 -- Music
