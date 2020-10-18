@@ -328,10 +328,12 @@ bar.create = function(s)
             layout = wibox.layout.fixed.horizontal,
             menu,
             -- Apps launcher
+            night,
             editor,
             files,
             reddit,
             firefox,
+            music,
             -- Build tasklist
             task_list.create(s),
       },
@@ -350,8 +352,6 @@ bar.create = function(s)
                 spacing = dpi(10),
                 layout = wibox.layout.fixed.horizontal,
             },
-            music,
-            night,
              -- External widgets
             updater,
             power

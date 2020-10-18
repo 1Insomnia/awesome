@@ -29,14 +29,14 @@ theme.title_font = "Input Mono Narrow 10"
 theme.title_fg = "#FFF"
 
 -- Background
-theme.bg_normal = "#1a1b26"
+theme.bg_normal = "#18191E"
 theme.bg_dim = "#1a1b26"
-theme.bg_dark = "#000000"
+theme.bg_dark = "#18191E"
 theme.bg_focus = "#151821"
-theme.bg_urgent = "#ff3e3e"
+theme.bg_urgent = "#FFFF00"
 theme.bg_minimize = "#444444"
 theme.bg_systray = theme.bg_normal
-theme.bg_bar = "#20262C"
+theme.bg_bar = "#18191E"
 theme.hover = "#00000000"
 
 -- Foreground
@@ -47,24 +47,24 @@ theme.fg_minimize = "#ffffff"
 
 -- 16 Colors
 -- Normal
-theme.black   = "#32344a"
-theme.red     = "#f7768e" 
-theme.green   = "#9ece6a" 
-theme.yellow  = "#e0af68" 
-theme.blue    = "#7aa2f7" 
-theme.magenta = "#ad8ee6"
-theme.cyan    = "#449dab"
-theme.white   = "#787c99" 
+theme.black   = "#18191E"
+theme.red     = "#FC2929" 
+theme.green   = "#44B273" 
+theme.yellow  = "#E25600" 
+theme.blue    = "#1D918B" 
+theme.magenta = "#D16BB7"
+theme.cyan    = "#00BFA4"
+theme.white   = "#CCCCCC" 
 
 -- Bright
-theme.brightBlack   = "#444b6a"
-theme.brightRed     = "#ff7a93"
-theme.brightGreen   = "#b9f27c"
-theme.brightYellow  = "#ff9e64"
-theme.brightBlue    = "#7da6ff"
-theme.brightMagenta = "#bb9af7"
-theme.brightCyan    = "#0db9d7"
-theme.brightWhite   = "#acb0d0"
+theme.brightBlack   = "#21252D"
+theme.brightRed     = "#FF5050"
+theme.brightGreen   = "#50C16E"
+theme.brightYellow  = "#ED722E"
+theme.brightBlue    = "#47A8A1"
+theme.brightMagenta = "#D68EB2"
+theme.brightCyan    = "#5AD1AA"
+theme.brightWhite   = "#FFFADE"
 
 -- Window Gap Distance
 theme.useless_gap = dpi(10)

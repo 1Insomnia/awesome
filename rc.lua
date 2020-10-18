@@ -89,7 +89,7 @@ require("awful.autofocus")
 
 -- Import theme
 local beautiful = require("beautiful")
-beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "theme/lighthaus.lua")
 
 -- Error handling
 -- ===================================================================
