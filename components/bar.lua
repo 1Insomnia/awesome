@@ -16,6 +16,7 @@ local icons = require('icons')
 -- Import bottom bars widgets
 local task_list = require("widgets.task-list")
 local calendar = require("widgets.calendar")
+local network = require("widgets.network")()
 local updater = require("widgets.package-updater")()
 
 
@@ -353,6 +354,7 @@ bar.create = function(s)
                 layout = wibox.layout.fixed.horizontal,
             },
              -- External widgets
+            network,
             updater,
             power
       }

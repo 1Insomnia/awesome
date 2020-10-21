@@ -156,7 +156,7 @@ keys.globalkeys = gears.table.join(
    -- Spawn music client
    awful.key({modkey}, "F3",
       function()
-         awful.spawn(apps.music)
+         awful.spawn.with_shell("~/bin/rofi_edit")
       end,
       {description = "application launcher", group = "launcher"}
    ),

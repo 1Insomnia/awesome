@@ -25,7 +25,7 @@ local apps = {}
 
 -- define default apps
 apps.default = {
-   terminal = "kitty",
+   terminal = "alacritty",
    launcher = "rofi -matching fuzzy -show combi",
    editorGui = "subl",
    music = "kitty -o font_size=12 --class music -e ncmpcpp",

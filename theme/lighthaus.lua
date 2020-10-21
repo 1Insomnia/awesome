@@ -25,7 +25,7 @@ gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() ..
 -- gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() .. "wallpaper/onedark_triangle.png", nil)
 -- Font
 theme.font = "Input Mono Narrow 9"
-theme.title_font = "Input Mono Narrow 10"
+theme.title_font = "Cookie Bold 12"
 theme.title_fg = "#FFF"
 
 -- Background

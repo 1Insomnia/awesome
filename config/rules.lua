@@ -20,7 +20,6 @@ local screen_width = awful.screen.focused().geometry.width
 -- define module table
 local rules = {}
 
-
 -- ===================================================================
 -- Rules
 -- ===================================================================
@@ -75,7 +74,7 @@ function rules.create(clientkeys, clientbuttons)
             "Firefox",
             "Subl",
             "Code",
-            "kitty -e ncmpcpp"
+            "Thunar"
          },
       }, properties = {switchtotag = true}
    },
@@ -90,88 +89,100 @@ function rules.create(clientkeys, clientbuttons)
              "qutebrowser"
          },
      },
-     properties = { tag = "2" },
-     except_any = {
-         role = { "GtkFileChooserDialog" },
-         instance = { "Toolkit" },
-         type = { "dialog" }
-     },
-  },
+      properties = { tag = "2" },
+      except_any = {
+          role = { "GtkFileChooserDialog" },
+          instance = { "Toolkit" },
+          type = { "dialog" }
+      },
+   },
 
-      -- Text editor
-      {
-          rule_any = {
-              class = {
-                  "code-insiders",
-                  "Subl",
-                  "Emacs"
-              },
-          },
-          properties = { tag = "3" },
-      },
+   -- Text editor
+   {
+       rule_any = {
+           class = {
+               "code-insiders",
+               "Subl",
+               "Emacs"
+           },
+       },
+       properties = { tag = "3" },
+   },
 
-      -- File manager
-      {
-          rule_any = {
-              class = {
-                  "thunar",
-                  "nemo"
-              },
-          },
-          properties = { tag = "4" },
-      },
-      -- Mail client
-      {
-          rule_any = {
-              class = {
-                  "Thunderbird",
-                  "Mailspring"
-              },
-          },
-          properties = { tag = "5" },
-      },
-      -- Social client
-      {
-          rule_any = {
-              class = {
-                  "Discord",
-                  "Telegram"
-              },
-          },
-          properties = { tag = "7" },
-      },
-      -- Visualizer
-      {
-         rule_any = {name = {"cava"}},
-         properties = {
-            floating = true,
-            maximized_horizontal = true,
-            sticky = true,
-            ontop = false,
-            skip_taskbar = true,
-            below = true,
-            focusable = false,
-            height = screen_height * 0.40,
-            opacity = 0.6
-         },
-         callback = function (c)
-            decorations.hide(c)
-            awful.placement.bottom(c)
-         end
-      },
+   -- File manager
+   {
+       rule_any = {
+           class = {
+               "Thunar"
+           },
+       },
+       properties = { tag = "4" },
+   },
 
-      -- File chooser dialog
-      {
-         rule_any = {role = {"GtkFileChooserDialog"}},
-         properties = {floating = true, width = screen_width * 0.55, height = screen_height * 0.65}
-      },
+   -- Mail client
+   {
+       rule_any = {
+           class = {
+               "Thunderbird",
+               "Mailspring"
+           },
+       },
+       properties = { tag = "5" },
+   },
 
-      -- Pavucontrol & Bluetooth Devices
-      {
-         rule_any = {class = {"Pavucontrol"}, name = {"Bluetooth Devices"}},
-         properties = {floating = true, width = screen_width * 0.55, height = screen_height * 0.45}
+   -- Social client
+   {
+       rule_any = {
+           class = {
+               "Discord",
+               "Telegram"
+           },
+       },
+       properties = { tag = "7" },
+   },
+
+   -- Misc client
+   {
+       rule_any = {
+           class = {
+               "Transmission"
+           },
+       },
+       properties = { tag = "8" },
+   },
+
+   -- Visualizer
+   {
+      rule_any = {name = {"cava"}},
+      properties = {
+         floating = true,
+         maximized_horizontal = true,
+         sticky = true,
+         ontop = false,
+         skip_taskbar = true,
+         below = true,
+         focusable = false,
+         height = screen_height * 0.40,
+         opacity = 0.6
       },
-   }
+      callback = function (c)
+         decorations.hide(c)
+         awful.placement.bottom(c)
+      end
+   },
+
+   -- File chooser dialog
+   {
+      rule_any = {role = {"GtkFileChooserDialog"}},
+      properties = {floating = true, width = screen_width * 0.55, height = screen_height * 0.65}
+   },
+
+   -- Pavucontrol & Bluetooth Devices
+   {
+      rule_any = {class = {"Pavucontrol"}, name = {"Bluetooth Devices"}},
+      properties = {floating = true, width = screen_width * 0.55, height = screen_height * 0.45}
+   },
+}
 end
 
 -- return module table
