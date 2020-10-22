@@ -50,14 +50,6 @@ local create_button = function (icon)
     return container
 end
 
-
--- Helpers just to concatenate into an url
-local create_url = function(name)
-    url = "https://".."/"..name
-    return url
-end
-
-
 -- Create battery bar
 local battery_bar = require("noodle.battery_bar")
 local battery = format_progress_bar(battery_bar)
@@ -67,7 +59,7 @@ battery:buttons(
 ))
 
 
--- Create brightness bar. 
+-- Create brightness bar.
 local brightness_bar = require("noodle.brightness_bar")
 local brightness = format_progress_bar(brightness_bar)
 
@@ -116,7 +108,6 @@ local search = create_button(icons.search)
 local music = create_button(icons.music)
 local power = create_button(icons.poweroff)
 local night = create_button(icons.redshift)
-local reddit = create_button(icons.reddit)
 local editor = create_button(icons.editor)
 local files = create_button(icons.files)
 local firefox = create_button(icons.firefox)
@@ -139,21 +130,12 @@ files:buttons(gears.table.join(
 
 
 editor:buttons(gears.table.join(
-    -- Left click - Mute / Unmute
+     -- Left click - Mute / Unmute
     awful.button({ }, 1, function ()
         awful.spawn(apps.default.editorGui)
     end),
     awful.button({ }, 3, function ()
         awful.spawn.with_shell("code-insiders")
-    end)
-))
-
-
-local reddit_url = create_url("reddit.com")
-reddit:buttons(gears.table.join(
-    -- Left click - Mute / Unmute
-    awful.button({ }, 1, function ()
-        awful.spawn(user.browser.." "..reddit_url)
     end)
 ))
 
@@ -211,7 +193,6 @@ helpers.add_hover_cursor(power, "hand1")
 helpers.add_hover_cursor(menu, "hand1")
 helpers.add_hover_cursor(editor, "hand1")
 helpers.add_hover_cursor(firefox, "hand1")
-helpers.add_hover_cursor(reddit, "hand1")
 helpers.add_hover_cursor(files, "hand1")
 
 local tag_colors_empty = { "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", "#00000000", }
@@ -330,10 +311,9 @@ bar.create = function(s)
             menu,
             -- Apps launcher
             night,
+            firefox,
             editor,
             files,
-            reddit,
-            firefox,
             music,
             -- Build tasklist
             task_list.create(s),

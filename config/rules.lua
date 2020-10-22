@@ -138,9 +138,18 @@ function rules.create(clientkeys, clientbuttons)
                "Telegram"
            },
        },
+       properties = { tag = "6" },
+   },
+   -- Media client
+   {
+       rule_any = {
+           class = {
+               "mpv",
+               "vlc"
+           },
+       },
        properties = { tag = "7" },
    },
-
    -- Misc client
    {
        rule_any = {
@@ -185,5 +194,9 @@ function rules.create(clientkeys, clientbuttons)
 }
 end
 
+if beautiful.border_width > 0 then
+    client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+    client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+end
 -- return module table
 return rules
