@@ -40,6 +40,7 @@ function rules.create(clientkeys, clientbuttons)
          buttons = clientbuttons,
          screen = awful.screen.preferred,
          placement = awful.placement.centered
+
       },
    },
    -- Floating clients.
@@ -72,9 +73,8 @@ function rules.create(clientkeys, clientbuttons)
          class = {
             "Firefox",
             "Subl",
-            "code-insiders",
-            "Thunar",
-            "Thunderbird"
+            "Code",
+            "Thunar"
          },
       }, properties = {switchtotag = true}
    },
@@ -86,7 +86,6 @@ function rules.create(clientkeys, clientbuttons)
          class = {
              "firefox",
              "Nightly",
-             "brave",
              "qutebrowser"
          },
      },

@@ -89,7 +89,7 @@ require("awful.autofocus")
 
 -- Import theme
 local beautiful = require("beautiful")
-beautiful.init(gears.filesystem.get_configuration_dir() .. "theme/bluloco.lua")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "theme/otone.lua")
 
 -- Error handling
 -- ===================================================================
@@ -186,7 +186,6 @@ end)
 -- ===================================================================
 -- Client Focusing
 -- ===================================================================
-
 
 -- Focus clients under mouse
 client.connect_signal("mouse::enter", function(c)

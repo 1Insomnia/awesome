@@ -25,7 +25,7 @@ gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() ..
 -- gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() .. "wallpaper/onedark_triangle.png", nil)
 -- Font
 theme.font = "Input Mono Narrow 9"
-theme.title_font = "Input Mono Narrow 10"
+theme.title_font = "Cookie 10"
 theme.title_fg = "#FFF"
 
 -- Background
@@ -47,24 +47,24 @@ theme.fg_minimize = "#ffffff"
 
 -- 16 Colors
 -- Normal
-theme.black   = "#282828"
-theme.red     = "#cc241d" 
-theme.green   = "#98971a" 
-theme.yellow  = "#d79921" 
-theme.blue    = "#458588" 
-theme.magenta = "#b16286"
-theme.cyan    = "#689d6a"
-theme.white   = "#a89984" 
+theme.black   = "#263640"
+theme.red     = "#e35430" 
+theme.green   = "#f5d65a" 
+theme.yellow  = "#f2a846" 
+theme.blue    = "#5692d6" 
+theme.magenta = "#976eff"
+theme.cyan    = "#83bdde"
+theme.white   = "#e0e8f3" 
 
 -- Bright
-theme.brightBlack   = "#928374"
-theme.brightRed     = "#fb4934"
-theme.brightGreen   = "#b8bb26"
-theme.brightYellow  = "#fabd2f"
-theme.brightBlue    = "#83a598"
-theme.brightMagenta = "#d3869b"
-theme.brightCyan    = "#8ec07c"
-theme.brightWhite   = "#ebdbb2"
+theme.brightBlack   = "#4a697d"
+theme.brightRed     = "#e35430"
+theme.brightGreen   = "#f5d65a"
+theme.brightYellow  = "#f2a846"
+theme.brightBlue    = "#5692d6"
+theme.brightMagenta = "#976eff"
+theme.brightCyan    = "#83bdde"
+theme.brightWhite   = "#e0e8f3"
 
 -- Window Gap Distance
 theme.useless_gap = dpi(10)
