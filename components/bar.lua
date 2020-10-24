@@ -320,7 +320,7 @@ bar.create = function(s)
       },
       {
             layout = wibox.layout.fixed.horizontal,
-            calendar,
+            calendar
       },
       {
             layout = wibox.layout.fixed.horizontal,
@@ -333,10 +333,14 @@ bar.create = function(s)
                 spacing = dpi(10),
                 layout = wibox.layout.fixed.horizontal,
             },
+            {
              -- External widgets
             network,
             updater,
-            power
+            power,
+            spacing = dpi(5),
+            layout = wibox.layout.fixed.horizontal,
+        }
       }
    }
 

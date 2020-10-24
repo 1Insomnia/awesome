@@ -1,3 +1,4 @@
+
 --      ████████╗██╗  ██╗███████╗███╗   ███╗███████╗
 --      ╚══██╔══╝██║  ██║██╔════╝████╗ ████║██╔════╝
 --         ██║   ███████║█████╗  ██╔████╔██║█████╗
@@ -29,42 +30,42 @@ theme.title_font = "Cookie Bold 10"
 theme.title_fg = "#FFF"
 
 -- Background
-theme.bg_normal = "#282828"
+theme.bg_normal = "#282c34"
 theme.bg_dim = "#282828"
 theme.bg_dark = "#282828"
-theme.bg_focus = "#282828"
+theme.bg_focus = "#1e2127"
 theme.bg_urgent = "#FFFF00"
 theme.bg_minimize = "#444444"
 theme.bg_systray = theme.bg_normal
-theme.bg_bar = "#282828"
+theme.bg_bar = "#282c34"
 theme.hover = "#00000000"
 
 -- Foreground
-theme.fg_normal = "#a9b1d6"
+theme.fg_normal = "#abb2bf"
 theme.fg_focus = "#e4e4e4"
 theme.fg_urgent = "#ffffff"
 theme.fg_minimize = "#ffffff"
 
 -- 16 Colors
 -- Normal
-theme.black   = "#263640"
-theme.red     = "#e35430" 
-theme.green   = "#f5d65a" 
-theme.yellow  = "#f2a846" 
-theme.blue    = "#5692d6" 
-theme.magenta = "#976eff"
-theme.cyan    = "#83bdde"
-theme.white   = "#e0e8f3" 
+theme.black   = "#1e2127"
+theme.red     = "#e06c75" 
+theme.green   = "#98c379" 
+theme.yellow  = "#d19a66" 
+theme.blue    = "#61afef" 
+theme.magenta = "#c678dd"
+theme.cyan    = "#56b6c2"
+theme.white   = "#828791" 
 
 -- Bright
-theme.brightBlack   = "#4a697d"
-theme.brightRed     = "#e35430"
-theme.brightGreen   = "#f5d65a"
-theme.brightYellow  = "#f2a846"
-theme.brightBlue    = "#5692d6"
-theme.brightMagenta = "#976eff"
-theme.brightCyan    = "#83bdde"
-theme.brightWhite   = "#e0e8f3"
+theme.brightBlack   = "#5c6370"
+theme.brightRed     = "#e06c75"
+theme.brightGreen   = "#98c379"
+theme.brightYellow  = "#d19a66"
+theme.brightBlue    = "#61afef"
+theme.brightMagenta = "#c678dd"
+theme.brightCyan    = "#56b6c2"
+theme.brightWhite   = "#e6efff"
 
 -- Window Gap Distance
 theme.useless_gap = dpi(10)

@@ -53,6 +53,13 @@ user = {
     -- Uses the https://corona-stats.online API
     coronavirus_country = "france",
 }
+local themes = {
+    "bluloco",
+    "material_dark",
+    "one_dark",
+    "otone",
+}
+local theme = themes[3]
 
 local beautiful = require("beautiful")
 local xrdb = beautiful.xresources.get_current_theme()
@@ -89,7 +96,9 @@ require("awful.autofocus")
 
 -- Import theme
 local beautiful = require("beautiful")
-beautiful.init(gears.filesystem.get_configuration_dir() .. "theme/otone.lua")
+
+local theme_dir = os.getenv("HOME") .. "/.config/awesome/theme/" .. theme
+beautiful.init(theme_dir ..".lua")
 
 -- Error handling
 -- ===================================================================

@@ -149,7 +149,7 @@ function rules.create(clientkeys, clientbuttons)
                "vlc"
            },
        },
-       properties = { tag = "7" },
+       properties = { tag = "7", fullscreen = true },
    },
    -- Misc client
    {

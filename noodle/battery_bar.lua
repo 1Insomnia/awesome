@@ -12,6 +12,7 @@ local battery_bar = wibox.widget{
     forced_height = dpi(30),
     margins       = {
       top = dpi(10),
+      right = dpi(10),
       bottom = dpi(10),
     },
     forced_width  = dpi(200),
