@@ -57,9 +57,9 @@ local themes = {
     "bluloco",
     "material_dark",
     "one_dark",
-    "otone",
+    "lighthaus",
 }
-local theme = themes[3]
+local theme = themes[4]
 
 local beautiful = require("beautiful")
 local xrdb = beautiful.xresources.get_current_theme()
@@ -204,6 +204,27 @@ end)
 -- ░█░█░█▀█░█░░░█░░░█▀█░█▀█░█▀█░█▀▀░█▀▄
 -- ░█▄█░█▀█░█░░░█░░░█▀▀░█▀█░█▀▀░█▀▀░█▀▄
 -- ░▀░▀░▀░▀░▀▀▀░▀▀▀░▀░░░▀░▀░▀░░░▀▀▀░▀░▀
+screen.connect_signal(
+	'request::wallpaper',
+	function(s)
+		-- If wallpaper is a function, call it with the screen
+		if beautiful.wallpaper then
+			if type(beautiful.wallpaper) == 'string' then
+				-- Check if beautiful.wallpaper is color/image
+				if beautiful.wallpaper:sub(1, #'#') == '#' then
+					-- If beautiful.wallpaper is color
+					gears.wallpaper.set(beautiful.wallpaper)
+
+				elseif beautiful.wallpaper:sub(1, #'/') == '/' then
+					-- If beautiful.wallpaper is path/image
+					gears.wallpaper.maximized(beautiful.wallpaper, s)
+				end
+			else
+				beautiful.wallpaper(s)
+			end
+		end
+	end
+)
 
 -- ===================================================================
 -- Garbage collection (allows for lower memory consumption)

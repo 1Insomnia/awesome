@@ -20,51 +20,53 @@ local theme = {}
 -- ===================================================================
 -- Theme Variables
 -- ===================================================================
-gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() ..
-                          "wallpaper/bg.png", nil, {x = 0, y = 597})
--- gears.wallpaper.tiled(gears.filesystem.get_configuration_dir() .. "wallpaper/onedark_triangle.png", nil)
+-- Wallpaper
+-- ===================================================================
+theme.wallpaper = gears.filesystem.get_configuration_dir() ..  "wallpaper/LightHouseNight.jpg"
+
 -- Font
 theme.font = "Input Mono Narrow 9"
 theme.title_font = "Cookie Bold 10"
 theme.title_fg = "#FFF"
 
 -- Background
-theme.bg_normal = "#282828"
-theme.bg_dim = "#282828"
-theme.bg_dark = "#282828"
-theme.bg_focus = "#282828"
+theme.bg_normal = "#18191E"
+theme.bg_dim = "#18191E"
+theme.bg_dark = "#18191E"
+theme.bg_focus = "#18191E"
 theme.bg_urgent = "#FFFF00"
-theme.bg_minimize = "#444444"
+theme.bg_minimize = "#21252D"
 theme.bg_systray = theme.bg_normal
-theme.bg_bar = "#282828"
+theme.bg_bar = "#18191E"
 theme.hover = "#00000000"
 
 -- Foreground
-theme.fg_normal = "#a9b1d6"
-theme.fg_focus = "#e4e4e4"
+theme.fg_normal = "#FFEE79"
+theme.fg_focus = "#ffffff"
 theme.fg_urgent = "#ffffff"
 theme.fg_minimize = "#ffffff"
 
 -- 16 Colors
 -- Normal
-theme.black   = "#263640"
-theme.red     = "#e35430" 
-theme.green   = "#f5d65a" 
-theme.yellow  = "#f2a846" 
-theme.blue    = "#5692d6" 
-theme.magenta = "#976eff"
-theme.cyan    = "#83bdde"
-theme.white   = "#e0e8f3" 
+
+theme.black   = "#18191E"
+theme.red     = "#FC2929" 
+theme.green   = "#44B273" 
+theme.yellow  = "#E25600" 
+theme.blue    = "#1D918B" 
+theme.magenta = "#D16BB7"
+theme.cyan    = "#00BFA4"
+theme.white   = "#CCCCCC" 
 
 -- Bright
-theme.brightBlack   = "#4a697d"
-theme.brightRed     = "#e35430"
-theme.brightGreen   = "#f5d65a"
-theme.brightYellow  = "#f2a846"
-theme.brightBlue    = "#5692d6"
-theme.brightMagenta = "#976eff"
-theme.brightCyan    = "#83bdde"
-theme.brightWhite   = "#e0e8f3"
+theme.brightBlack   = "#21252D"
+theme.brightRed     = "#FF5050"
+theme.brightGreen   = "#50C16E"
+theme.brightYellow  = "#ED722E"
+theme.brightBlue    = "#47A8A1"
+theme.brightMagenta = "#D68EB2"
+theme.brightCyan    = "#5AD1AA"
+theme.brightWhite   = "#FFFADE"
 
 -- Window Gap Distance
 theme.useless_gap = dpi(10)
