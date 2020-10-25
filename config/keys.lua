@@ -153,6 +153,20 @@ keys.globalkeys = gears.table.join(
       end,
       {description = "application launcher", group = "launcher"}
    ),
+   -- launch rofi bookmarks
+   awful.key({modkey, "Shift"}, "d",
+      function()
+         awful.spawn.with_shell("~/bin/bookmarks")
+      end,
+      {description = "application launcher", group = "launcher"}
+   ),
+   -- launch rofi windows
+   awful.key({modkey}, "p",
+      function()
+         awful.spawn.with_shell("~/bin/rofi_awesome_window")
+      end,
+      {description = "application launcher", group = "launcher"}
+   ),
    -- Spawn music client
    awful.key({modkey}, "F3",
       function()

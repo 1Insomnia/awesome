@@ -27,6 +27,7 @@ local apps = {}
 apps.default = {
    terminal = "alacritty",
    launcher = "rofi -matching fuzzy -show combi",
+   bookmarks = "~/bin/bookmarks",
    editorGui = "subl",
    music = "kitty -o font_size=12 --class music -e ncmpcpp",
    screenshot = "scrot -e 'mv $f ~/Pictures/ 2>/dev/null'",
