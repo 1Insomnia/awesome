@@ -112,7 +112,7 @@ end)
 
 -- Icons baby
 local icons = require("icons")
-icons.init("sheet")
+icons.init("drops")
 
 
 -- Import Keybinds

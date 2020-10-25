@@ -22,7 +22,7 @@ local theme = {}
 -- ===================================================================
 -- Wallpaper
 -- ===================================================================
-theme.wallpaper = gears.filesystem.get_configuration_dir() ..  "wallpaper/LightHouseNight.jpg"
+theme.wallpaper = gears.filesystem.get_configuration_dir() ..  "wallpaper/LightHouseNight1.jpg"
 
 -- Font
 theme.font = "Input Mono Narrow 9"
@@ -31,7 +31,7 @@ theme.title_fg = "#FFF"
 
 -- Background
 theme.bg_normal = "#18191E"
-theme.bg_dim = "#18191E"
+theme.bg_dim = "#090B26"
 theme.bg_dark = "#18191E"
 theme.bg_focus = "#18191E"
 theme.bg_urgent = "#FFFF00"
@@ -83,10 +83,10 @@ theme.border_marked = theme.red
 
 -- Notification 
 theme.notification_position = "top_right"
-theme.notification_border_width = dpi(0)
+theme.notification_border_width = dpi(2)
 theme.notification_border_radius = theme.border_radius
 theme.notification_border_color = x.color10
-theme.notification_bg = x.background
+theme.notification_bg = theme.bg_dim
 -- theme.notification_bg = x.color8
 theme.notification_fg = x.foreground
 theme.notification_crit_bg = x.background
