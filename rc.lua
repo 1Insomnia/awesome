@@ -58,9 +58,10 @@ local themes = {
     "material_dark",
     "one_dark",
     "lighthaus",
-    "gruvbox_light"
+    "gruvbox_light",
+    "gruvbox_dark"
 }
-local theme = themes[5]
+local theme = themes[6]
 
 local beautiful = require("beautiful")
 local xrdb = beautiful.xresources.get_current_theme()
