@@ -3,7 +3,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 
 -- Set colors
-local active_color = beautiful.yellow
+local active_color = beautiful.blue
 local background_color = beautiful.bg_normal 
 
 local brightness_bar = wibox.widget{

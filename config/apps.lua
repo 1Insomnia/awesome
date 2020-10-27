@@ -153,7 +153,7 @@ end
 -- List of apps to start once on start-up
 local run_on_start_up = {
   "blueman-applet",
-  "xrandr --output HDMI1 --auto --right-of eDP1"
+  "xrandr --output HDMI1 --auto --right-of eDP1" 
 }
 -- Run all the apps listed in run_on_start_up
 function apps.autostart()

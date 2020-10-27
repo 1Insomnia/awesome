@@ -301,6 +301,7 @@ bar.create = function(s)
         ontop = true,
         height = dpi(32),
         width = s.geometry.width,
+        bg = beautiful.bg_bar
    })
 
    panel:setup {
@@ -360,6 +361,5 @@ bar.create = function(s)
    client.connect_signal("unfocus", change_panel_visibility)
 
 end
-
 
 return bar

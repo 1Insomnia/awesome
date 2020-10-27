@@ -2,7 +2,7 @@ local gears = require("gears")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 
-local active_color = beautiful.blue
+local active_color = beautiful.green
 local muted_color = beautiful.brightBlack
 local active_background_color = beautiful.bg_normal
 local muted_background_color = beautiful.brightBlack
